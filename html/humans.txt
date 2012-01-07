@@ -1,0 +1,13 @@
+/* TEAM */
+  Developer: Jim Rowe
+  Site: www.jimcode.org
+  Twitter: twitter.com/jimrowe
+  Location: Guernsey, Channel Islands
+
+/* SITE */
+  Standards: HTML5, CSS3
+  Components: Modernizr, jQuery
+  Software: Ubuntu Linux, Komodo, Ruby, Codeigniter, PHP, More!
+  
+/* THANKS */
+  What is this file about?: humanstxt.org
