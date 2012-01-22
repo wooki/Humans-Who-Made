@@ -1,57 +1,55 @@
-<!doctype html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!-- Consider adding an manifest.appcache: h5bp.com/d/Offline -->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <!-- Use the .htaccess and remove these lines to avoid edge case issues.
-       More info: h5bp.com/b/378 -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title><?= $title ?></title>
+    <meta name="description" content="<?= $description ?>">
+    <meta name="author" content="James Rowe">
 
-  <title><?= $title ?></title>
-  <meta name="description" content="<?= $description ?>">
-  <meta name="author" content="James Rowe">
+    <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <!-- Mobile viewport optimized: j.mp/bplateviewport -->
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script language="javascript" src="http://www.google.com/jsapi"></script>
 
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+    <!-- Le styles -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
 
-  <!-- CSS: implied media=all -->
-  <link rel="stylesheet" href="css/style.css">
-  
-  <!-- end CSS-->
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+  </head>
 
-  <script language="javascript" src="http://www.google.com/jsapi"></script>
+  <body>
 
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <a class="brand" href="/">Humans Who Made</a>
+          <ul class="nav">
+            <li<?php if ($active == 'home') { echo ' class="active"'; } ?>><a href="/">Home</a></li>
+            <li<?php if ($active == 'about-us') { echo ' class="active"'; } ?>><a href="/about-us">About</a></li>
+            <li<?php if ($active == 'humans-txt') { echo ' class="active"'; } ?>><a href="/humans-txt">humans.txt</a></li>
+            <li<?php if ($active == 'tags') { echo ' class="active"'; } ?>><a href="/tags">Tags</a></li>
+            <li<?php if ($active == 'sites') { echo ' class="active"'; } ?>><a href="/sites">Websites</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-  <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
-
-  <!-- All JavaScript at the bottom, except for Modernizr / Respond.
-       Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries
-       For optimal performance, use a custom Modernizr build: www.modernizr.com/download/ -->
-  <script src="js/libs/modernizr-2.0.6.min.js"></script>
-</head>
-
-<body>
-
-  <div class="bg"><div class="container">
-    <header>
-
-      <a href="/" id="logo">
-        <img width="250" height="43" src="/img/logo.png" alt="Humans Who Made" title="Humans Who Made">
-      </a>
-      
-      <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/">About us</a></li>
-        <li><a href="/">Humans.txt</a></li>
-      </ul>
-      </nav>
-
-    </header>
+    <div class="container">
