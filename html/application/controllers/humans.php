@@ -18,7 +18,7 @@ class Humans extends CI_Controller {
 		$sql = "SELECT tags.name ";
 		$sql .= "FROM tags INNER JOIN domain_tags ON (tags.id = domain_tags.tag_id) ";
 		$sql .= "INNER JOIN domains ON (domains.id = domain_tags.domain_id) ";
-		$sql .= "WHERE domains.name = '".$domainname."' LIMIT 1;";
+		$sql .= "WHERE domains.name = '".$domainname."';";
     
   	$query = $this->db->query($sql);
 	  $tags = $query->result();
