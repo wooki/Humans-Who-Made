@@ -39,3 +39,5 @@ CREATE TABLE domain_tags (
    tag_id int not null,
    primary key (id)
 );
+
+CREATE UNIQUE INDEX tag_domain_domain_tags ON domain_tags (tag_id, domain_id);

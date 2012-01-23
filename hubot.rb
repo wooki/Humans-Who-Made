@@ -9,6 +9,7 @@ require 'uri'
 require 'open-uri'
 require 'net/http'
 require 'nokogiri'
+require 'mechanize'
 
 # html markers
 html_markers = ['<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
@@ -26,35 +27,68 @@ domains.each { | domain |
   
   begin
     
-    # only use En encoded sites!
-    #<meta content="text/html; charset=euc-kr" http-equiv="Content-Type">
-    # hot the homepage and check the encoding!
+    # load the homepage of the site and check for the language
+    agent = Mechanize.new
+    homepage = agent.get("http://#{domain[0]}")
+    process = true
+    puts "lang: #{homepage.root.root['lang'].downcase}" if homepage.root.root['lang']
+    puts "Header: #{homepage.response['Content-Language'].downcase}" if homepage.response['Content-Language']
+    puts "lang: #{homepage.root.xpath('//meta[http-equiv="Content-Language"]').first['content'].downcase}" if homepage.root.xpath('//meta[http-equiv="Content-Language"]').first and homepage.root.xpath('//meta[http-equiv="Content-Language"]').first['content']
     
-    #doc = Nokogiri::HTML(open(url))
-    doc = open(url)
-    content = doc.read
-    content.strip!
-    
-    # ignore html style content - likely a 404 page that sends 200, or spam!
-    valid_content = true
-    if !content or content == ''
-      valid_content = false
+    if (homepage.root.root['lang'] and
+        (homepage.root.root['lang'].downcase != '' and
+        homepage.root.root['lang'].downcase != 'en' and
+        homepage.root.root['lang'].downcase != 'en-gb' and
+        homepage.root.root['lang'].downcase != 'en-us'
+        )) or
+        ( homepage.response['Content-Language'] and
+         (homepage.response['Content-Language'].downcase != '' and
+         homepage.response['Content-Language'].downcase != 'en' and
+         homepage.response['Content-Language'].downcase != 'en-gb' and
+         homepage.response['Content-Language'].downcase != 'en-us'
+        )) or
+        ( homepage.root.xpath('//meta[http-equiv="Content-Language"]').first and
+          (
+            homepage.root.xpath('//meta[http-equiv="Content-Language"]').first['content'].downcase != '' and
+            homepage.root.xpath('//meta[http-equiv="Content-Language"]').first['content'].downcase != 'en' and
+            homepage.root.xpath('//meta[http-equiv="Content-Language"]').first['content'].downcase != 'en-gb' and
+            homepage.root.xpath('//meta[http-equiv="Content-Language"]').first['content'].downcase != 'en-us'
+          )                
+        )
+       
+       process = false
     end
-    if valid_content
-      html_markers.each { | marker |
-        if valid_content
-          valid_content = false if content.include? marker
-        end      
-      }
-    end
+  
+    if process
     
-    if valid_content
+      #doc = Nokogiri::HTML(open(url))
+      doc = open(url)
+      content = doc.read
+      content.strip!
       
-      # insert new record
-      db.query "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
+      # ignore html style content - likely a 404 page that sends 200, or spam!
+      valid_content = true
+      if !content or content == ''
+        valid_content = false
+      end
+      if valid_content
+        html_markers.each { | marker |
+          if valid_content
+            valid_content = false if content.include? marker
+          end      
+        }
+      end
       
+      if valid_content
+        
+        # insert new record
+        db.query "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
+        
+      else
+        puts " invalid content"
+      end
     else
-      puts " invalid content"
+      puts " None English Content"
     end
   
   rescue EOFError
