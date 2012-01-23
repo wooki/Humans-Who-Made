@@ -32,23 +32,25 @@ tags = Array.new
 seed_domains.each { | seed |
   
   db.query "UPDATE humans SET last_seed = NOW() WHERE id = #{seed[1]}" if seed[1]
-#  puts "Anemone is spidering #{seed[0]}"
+  puts "Anemone is spidering #{seed[0]}"
   
   begin
     Anemone.crawl("http://#{seed[0]}", {:threads => 4, :depth_limit => 1}) do | anemone |
       anemone.on_every_page { | page |
         if page.doc
+          
+          # collect links
           page.doc.xpath('//a').each { | element |
             href = element.attr('href')
             tag = element.content
             if href
               domain = URI.parse(URI.escape href.strip).host
-              tags.push({:domain => domain, :tag => tag[0, 100]}) if tag and tag.strip != '' and domain and domain.strip != '' and !tag.include? "http"
+              tags.push({:domain => domain, :tag => tag[0, 100]}) if domain != seed[0] and tag and tag.strip != '' and domain and domain.strip != '' and !tag.include? "http"
               if domain and domain.strip != ''
                 subdomains = domain.split(".")
                 subdomains.each { | subdomain |
 #                  puts "tag: #{subdomain}"
-                  tags.push({:domain => domain, :tag => subdomain[0, 100]}) if subdomain and subdomain.strip != ''
+                  tags.push({:domain => domain, :tag => subdomain[0, 100]}) if domain != seed[0] and subdomain and subdomain.strip != ''
                 }
               end
               
@@ -58,6 +60,7 @@ seed_domains.each { | seed |
               end            
             end
           }
+          
         end      
       }
     end

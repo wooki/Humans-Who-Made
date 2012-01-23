@@ -41,6 +41,11 @@
 $route['default_controller'] = "homepage";
 $route['404_override'] = '';
 
+$route['tag/(:any)'] = "sites/tag/$1";
+$route['humans/(:any)'] = "humans/index/$1";
+
+$route['about-us'] = "homepage/about_us";
+$route['humans-txt'] = "homepage/humanstxt";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
