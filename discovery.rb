@@ -50,7 +50,7 @@ seed_domains.each { | seed |
               domain = URI.parse(URI.escape href.strip).host
               tags.push({:domain => domain, :tag => tag[0, 100]}) if domain != seed[0] and tag and tag.strip != '' and domain and domain.strip != '' and !tag.include? "http"
               if domain and domain.strip != ''
-                subdomains = domain.split(".")
+                subdomains = domain.split(/\.|\//)
                 subdomains.each { | subdomain |
 #                  puts "tag: #{subdomain}"
                   tags.push({:domain => domain, :tag => subdomain[0, 100]}) if domain != seed[0] and subdomain and subdomain.strip != ''
@@ -82,7 +82,7 @@ end
 # create tags (ignore tags unless they start with a word character)
 tags.each { | tag |
 if !(tag[:domain] =~ ignore_domains) and tag[:tag] =~ /^\w/
-  db.query "INSERT IGNORE INTO tags (name) VALUES ('#{Mysql.escape_string tag[:tag]}')"
-  db.query "INSERT IGNORE INTO domain_tags (domain_id, tag_id) VALUES ((SELECT domains.id FROM domains WHERE domains.name = '#{Mysql.escape_string tag[:domain]}'), (SELECT tags.id FROM tags WHERE tags.name = '#{Mysql.escape_string tag[:tag]}'))"
+  db.query "INSERT IGNORE INTO tags (name) VALUES ('#{Mysql.escape_string tag[:tag].strip}')"
+  db.query "INSERT IGNORE INTO domain_tags (domain_id, tag_id) VALUES ((SELECT domains.id FROM domains WHERE domains.name = '#{Mysql.escape_string tag[:domain]}'), (SELECT tags.id FROM tags WHERE tags.name = '#{Mysql.escape_string tag[:tag].strip}'))"
 end
 }
