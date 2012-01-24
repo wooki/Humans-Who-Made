@@ -8,6 +8,9 @@ require 'mysql'
 require 'anemone'
 require 'uri'
 
+# max no of domains to check each time
+max_domains = 5
+
 # regex of domains that we want to ignore - in this case googles many not .com domains!
 ignore_domains = /((\w+\.)?google\.\w\w\w?\.\w+)|((\w+\.)?google\.(?!com))/i
 
@@ -19,7 +22,7 @@ seed_domains = Array.new
 discovered_domains = Array.new
 
 # use the domains that already have humans as seeds
-humans = db.query "SELECT domains.name, humans.id FROM domains inner join humans on (domains.id = humans.domain_id) ORDER BY humans.last_seed LIMIT 0, 25"
+humans = db.query "SELECT domains.name, humans.id FROM domains inner join humans on (domains.id = humans.domain_id) ORDER BY humans.last_seed LIMIT 0, #{max_domains}"
 if humans.num_rows > 0
   seed_domains = humans  
 else
@@ -38,7 +41,7 @@ seed_domains.each { | seed |
   puts "Anemone is spidering #{seed[0]}"
   
   begin
-    Anemone.crawl("http://#{seed[0]}", {:threads => 4, :depth_limit => 1}) do | anemone |
+    Anemone.crawl("http://#{seed[0]}", {:threads => 1, :depth_limit => 1}) do | anemone |
       anemone.on_every_page { | page |
         if page.doc
           
