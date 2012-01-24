@@ -94,6 +94,8 @@ domains.each { | domain |
       puts " None English Content"
     end
   
+  rescue Net::HTTP::Persistent::Error
+    puts " Net::HTTP::Persistent::Error"
   rescue OpenSSL::SSL::SSLError
     puts " OpenSSL::SSL::SSLError"
   rescue EOFError
