@@ -15,19 +15,22 @@
 	each site. This has the advantage of ensuring that the people listed on this
 	site really do have access to the site they are claiming to	have developed
 	and also it allows us to list a huge number of websites and people easily.</p>
-	<p><a class="btn" href="/about-us">View details &raquo;</a></p>
+	<p><a class="btn" href="/about-us">About Humans Who Made &raquo;</a></p>
  </div>
 	<div class="span-one-third">
 		<h2>About humans.txt</h2>
 		<p>The idea behind humans.txt is to create a way of knowing who developed,
 		created or authored a website. You simply place the information
 		in a simpe text file in the root of your site.</p>
-		<p><a class="btn" href="/humans-txt">Read more &raquo;</a></p>
+		<p><a class="btn" href="/humans-txt">About humans.txt &raquo;</a></p>
 	</div>
 	<div class="span-one-third">
 		<h2>Tags</h2>
-		<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-		<p><a class="btn" href="/tags">View details &raquo;</a></p>
+		<p>
+			<?php foreach ($tags as $tag) { ?>
+	<a href="/tag/<?php echo urlencode($tag->name); ?>" class="tag" style="font-size: <?php echo 8+round($tag->uses * ($max_uses/50)); ?>px"><?php echo $tag->name; ?></a>
+	<?php } ?></p>
+			<p><a class="btn" href="/tags">More Tags &raquo;</a></p>
 	</div>
 </div>
 
