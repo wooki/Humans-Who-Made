@@ -8,8 +8,8 @@ require 'mysql'
 require 'anemone'
 require 'uri'
 
-# regex of domains that we want to ignore
-ignore_domains = /(\w+\.)?google\.com\.\w+/i
+# regex of domains that we want to ignore - in this case googles many not .com domains!
+ignore_domains = /((\w+\.)?google\.\w\w\w?\.\w+)|((\w+\.)?google\.(?!com))/i
 
 # connect
 db = Mysql.new('localhost', 'root', 'atreides', 'humans')
@@ -79,9 +79,9 @@ if !(domain =~ ignore_domains)
 end  
 }
 
-# create tags
+# create tags (ignore tags unless they start with a word character)
 tags.each { | tag |
-if !(tag[:domain] =~ ignore_domains)
+if !(tag[:domain] =~ ignore_domains) and tag[:tag] =~ /^\w/
   db.query "INSERT IGNORE INTO tags (name) VALUES ('#{Mysql.escape_string tag[:tag]}')"
   db.query "INSERT IGNORE INTO domain_tags (domain_id, tag_id) VALUES ((SELECT domains.id FROM domains WHERE domains.name = '#{Mysql.escape_string tag[:domain]}'), (SELECT tags.id FROM tags WHERE tags.name = '#{Mysql.escape_string tag[:tag]}'))"
 end
