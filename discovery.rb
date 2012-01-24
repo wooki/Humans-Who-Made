@@ -8,6 +8,9 @@ require 'mysql'
 require 'anemone'
 require 'uri'
 
+# regex of domains that we want to ignore
+ignore_domains = /(\w+\.)?google\.com\.\w+/i
+
 # connect
 db = Mysql.new('localhost', 'root', 'atreides', 'humans')
 
@@ -71,12 +74,15 @@ seed_domains.each { | seed |
 
 # save each discovered domain to the database unless it is already there
 discovered_domains.each { | domain |
+if !(domain =~ ignore_domains)
   db.query "INSERT IGNORE INTO domains (name, discovered) VALUES ('#{Mysql.escape_string domain}', NOW())"
+end  
 }
 
 # create tags
 tags.each { | tag |
-#  puts "tag: #{tag[:tag]}"
+if !(tag[:domain] =~ ignore_domains)
   db.query "INSERT IGNORE INTO tags (name) VALUES ('#{Mysql.escape_string tag[:tag]}')"
   db.query "INSERT IGNORE INTO domain_tags (domain_id, tag_id) VALUES ((SELECT domains.id FROM domains WHERE domains.name = '#{Mysql.escape_string tag[:domain]}'), (SELECT tags.id FROM tags WHERE tags.name = '#{Mysql.escape_string tag[:tag]}'))"
+end
 }
