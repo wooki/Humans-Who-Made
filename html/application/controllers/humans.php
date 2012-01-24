@@ -7,7 +7,9 @@ class Humans extends CI_Controller {
 	 */
 	public function index($domainname) {
     
-    $sql = "SELECT domains.name, humans.discovered, humans.checked, humans.txt ";
+    $this->output->cache(60);
+    
+		$sql = "SELECT domains.name, humans.discovered, humans.checked, humans.txt ";
 		$sql .= "FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) ";
 		$sql .= "WHERE domains.name = '".$domainname."' LIMIT 1;";
     

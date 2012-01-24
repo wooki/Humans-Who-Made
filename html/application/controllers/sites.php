@@ -7,7 +7,9 @@ class Sites extends CI_Controller {
 	 */
 	public function index() {
     
-    $sql = "SELECT domains.name, humans.id FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) ORDER BY domains.name;";
+    $this->output->cache(60);
+    
+		$sql = "SELECT domains.name, humans.id FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) ORDER BY domains.name;";
     
   	$query = $this->db->query($sql);
 	  $domains = $query->result();
@@ -26,6 +28,8 @@ class Sites extends CI_Controller {
 	 * List sites with humans.txt for the specified tag
 	 */
 	public function tag($tagname) {
+    
+		$this->output->cache(60);
     
 		$tagname = urldecode($tagname);
 		

@@ -7,7 +7,9 @@ class Tags extends CI_Controller {
 	 */
 	public function index() {
     
-    $countuses = "SELECT tags.name name, ROUND(SQRT(count(domain_tags.id)), 0) uses ";
+    $this->output->cache(60);
+    
+		$countuses = "SELECT tags.name name, ROUND(SQRT(count(domain_tags.id)), 0) uses ";
     $countuses .= "FROM tags INNER JOIN domain_tags ON (tags.id = domain_tags.tag_id) ";
     $countuses .= "INNER JOIN domains ON (domain_tags.domain_id = domains.id) ";
     $countuses .= "INNER JOIN humans ON (domains.id = humans.domain_id) ";
