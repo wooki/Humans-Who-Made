@@ -52,7 +52,7 @@ domains.each { | domain |
         db.query "INSERT INTO human_versions (domain_id, last_seen, txt) SELECT domain_id, checked, txt FROM humans WHERE id = #{domain[1]}"
         
         # update the existing record
-        db.query "UPDATE humans (checked = NOW(), txt = '#{content}') WHERE id = #{domain[1]}"
+        db.query "UPDATE humans (checked = NOW(), txt = '#{db.escape_string content}') WHERE id = #{domain[1]}"
       
       else
 #        puts " same content"
@@ -61,17 +61,19 @@ domains.each { | domain |
     else
 #      puts " invalid content"
     end
-    
+   
+  rescue Mysql::Error
+    puts " Mysql::Error "
   rescue Errno::ECONNREFUSED
-#    puts " Errno::ECONNREFUSED"
+    puts " Errno::ECONNREFUSED"
   rescue Timeout::Error
-#    puts " Timeout::Error"
+    puts " Timeout::Error"
   rescue SocketError
-#    puts " SocketError"
+    puts " SocketError"
   rescue OpenURI::HTTPError
-#    puts " 404"
+    puts " 404"
   rescue RuntimeError
-#    puts " Runtime Error - probably a redirect"
+    puts " Runtime Error - probably a redirect"
   end
   
    

@@ -34,6 +34,7 @@ domains.each { | domain |
     agent = Mechanize.new
     homepage = agent.get("http://#{domain[0]}")
     process = true
+    if homepage and homepage.root and homepage.root.root
     puts "lang: #{homepage.root.root['lang'].downcase}" if homepage.root.root['lang']
     puts "Header: #{homepage.response['Content-Language'].downcase}" if homepage.response['Content-Language']
     puts "lang: #{homepage.root.xpath('//meta[http-equiv="Content-Language"]').first['content'].downcase}" if homepage.root.xpath('//meta[http-equiv="Content-Language"]').first and homepage.root.xpath('//meta[http-equiv="Content-Language"]').first['content']
@@ -61,7 +62,8 @@ domains.each { | domain |
        
        process = false
     end
-  
+    end
+ 
     if process
     
       #doc = Nokogiri::HTML(open(url))
