@@ -51,13 +51,15 @@ seed_domains.each { | seed |
             tag = element.content
             if href
               domain = URI.parse(URI.escape href.strip).host
-              tags.push({:domain => domain, :tag => tag[0, 100]}) if domain != seed[0] and tag and tag.strip != '' and domain and domain.strip != '' and !tag.include? "http"
-              if domain and domain.strip != ''
-                subdomains = domain.split(/\.|\//)
-                subdomains.each { | subdomain |
-#                  puts "tag: #{subdomain}"
-                  tags.push({:domain => domain, :tag => subdomain[0, 100]}) if domain != seed[0] and subdomain and subdomain.strip != ''
-                }
+              if domain != seed[0]
+                tags.push({:domain => domain, :tag => tag[0, 32]}) if domain != seed[0] and tag and tag.strip != '' and domain and domain.strip != '' and !tag.include? "http"
+                if domain and domain.strip != ''
+                  subdomains = domain.split(/\.|\//)
+                  subdomains.each { | subdomain |
+  #                  puts "tag: #{subdomain}"
+                    tags.push({:domain => domain, :tag => subdomain[0, 32]}) if domain != seed[0] and subdomain and subdomain.strip != ''
+                  }
+                end
               end
               
               if domain and domain.strip != '' and !discovered_domains.include? domain
