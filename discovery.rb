@@ -56,7 +56,7 @@ seed_domains.each { | seed |
                 if domain and domain.strip != ''
                   subdomains = domain.split(/\.|\//)
                   subdomains.each { | subdomain |
-  #                  puts "tag: #{subdomain}"
+#                    puts "tag: #{subdomain}"
                     tags.push({:domain => domain, :tag => subdomain[0, 32]}) if domain != seed[0] and subdomain and subdomain.strip != ''
                   }
                 end
