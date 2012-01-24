@@ -15,7 +15,7 @@ class Homepage extends CI_Controller {
     
     $sql = "SELECT tgs.* FROM (";
     $sql = $sql.$countuses;
-    $sql = $sql.") tgs ORDER BY tgs.uses LIMIT 30;";
+    $sql = $sql.") tgs ORDER BY tgs.uses LIMIT 20;";
     
   	$query = $this->db->query($sql);
 	  $tags = $query->result();
