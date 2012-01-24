@@ -91,6 +91,8 @@ domains.each { | domain |
       puts " None English Content"
     end
   
+  rescue OpenSSL::SSL::SSLError
+    puts " OpenSSL::SSL::SSLError"
   rescue EOFError
     puts " EOFError"
   rescue URI::InvalidURIError
