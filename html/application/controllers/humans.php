@@ -11,7 +11,7 @@ class Humans extends CI_Controller {
     
 		$sql = "SELECT domains.name, humans.discovered, humans.checked, humans.txt ";
 		$sql .= "FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) ";
-		$sql .= "WHERE domains.name = '".$this->db->escape($domainname)."' LIMIT 1;";
+		$sql .= "WHERE domains.name = ".$this->db->escape($domainname)." LIMIT 1;";
     
   	$query = $this->db->query($sql);
 	  $humans = $query->result();
@@ -20,7 +20,7 @@ class Humans extends CI_Controller {
 		$sql = "SELECT tags.name ";
 		$sql .= "FROM tags INNER JOIN domain_tags ON (tags.id = domain_tags.tag_id) ";
 		$sql .= "INNER JOIN domains ON (domains.id = domain_tags.domain_id) ";
-		$sql .= "WHERE domains.name = '".$this->db->escape($domainname)."' ORDER BY tags.id DESC LIMIT 15;";
+		$sql .= "WHERE domains.name = ".$this->db->escape($domainname)." ORDER BY tags.id DESC LIMIT 20;";
     
   	$query = $this->db->query($sql);
 	  $tags = $query->result();
