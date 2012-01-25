@@ -4,6 +4,12 @@
 	</div>
 	<div class="row">
 		<div class="span12">
+			<?php if ((!is_null($human->title)) and ($human->title != '')) { ?>
+			<h2><?php echo $human->title; ?></h2>
+			<?php } ?>
+			<?php if ((!is_null($human->description)) and ($human->description != '')) { ?>
+			<p><?php echo $human->description; ?></p>
+			<?php } ?>
 <pre>
 <?php echo htmlentities($human->txt); ?>
 </pre>

@@ -12,7 +12,7 @@ require 'nokogiri'
 require 'mechanize'
 
 # limit the number of domains checked
-max_domains = 250
+max_domains = 25
 
 # html markers
 html_markers = ['<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
@@ -37,7 +37,15 @@ domains.each { | domain |
     if homepage and homepage.root and homepage.root.root
     puts "lang: #{homepage.root.root['lang'].downcase}" if homepage.root.root['lang']
     puts "Header: #{homepage.response['Content-Language'].downcase}" if homepage.response['Content-Language']
-    puts "lang: #{homepage.root.xpath('//meta[http-equiv="Content-Language"]').first['content'].downcase}" if homepage.root.xpath('//meta[http-equiv="Content-Language"]').first and homepage.root.xpath('//meta[http-equiv="Content-Language"]').first['content']
+    puts "lang: #{homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content'].downcase}" if homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first and homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content']
+    
+    # extract the title and meta description if we can
+    titles = homepage.root.xpath('//title')
+    title = titles.first.content() if titles.length > 0
+    descriptions = homepage.root.xpath('//meta[@name="description"]')
+    description = descriptions.first['content'] if descriptions.length > 0
+    puts "title: #{title}"
+    puts "description: #{description}"
     
     if (homepage.root.root['lang'] and
         (homepage.root.root['lang'].downcase != '' and
@@ -51,12 +59,12 @@ domains.each { | domain |
          homepage.response['Content-Language'].downcase != 'en-gb' and
          homepage.response['Content-Language'].downcase != 'en-us'
         )) or
-        ( homepage.root.xpath('//meta[http-equiv="Content-Language"]').first and
+        ( homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first and
           (
-            homepage.root.xpath('//meta[http-equiv="Content-Language"]').first['content'].downcase != '' and
-            homepage.root.xpath('//meta[http-equiv="Content-Language"]').first['content'].downcase != 'en' and
-            homepage.root.xpath('//meta[http-equiv="Content-Language"]').first['content'].downcase != 'en-gb' and
-            homepage.root.xpath('//meta[http-equiv="Content-Language"]').first['content'].downcase != 'en-us'
+            homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content'].downcase != '' and
+            homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content'].downcase != 'en' and
+            homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content'].downcase != 'en-gb' and
+            homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content'].downcase != 'en-us'
           )                
         )
        
@@ -87,7 +95,7 @@ domains.each { | domain |
       if valid_content
         
         # insert new record
-        db.query "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
+        db.query "INSERT INTO humans (domain_id, discovered, checked, txt, title, description) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}', '#{Mysql.escape_string title}', '#{Mysql.escape_string description}')"
         
       else
         puts " invalid content"
