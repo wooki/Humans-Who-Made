@@ -9,7 +9,7 @@ require 'anemone'
 require 'uri'
 
 # max no of domains to check each time
-max_domains = 1
+max_domains = 10
 
 # regex of domains that we want to ignore - in this case googles many not .com domains!
 ignore_domains = /(twitter\.com)|(t\.co)|((\w+\.)?google\.\w\w\w?\.\w+)|((\w+\.)?google\.(?!com))/i
