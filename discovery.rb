@@ -70,6 +70,7 @@ seed_domains.each { | seed |
       end      
     }
     end
+  rescue URI::InvalidComponentError
   rescue URI::InvalidURIError
     # puts " URI::InvalidURIError #{seed[0]}"
   end
