@@ -30,6 +30,9 @@ else
   seed_domains.push ["www.jimcode.org", nil ]
 end
 
+seed_domains = Array.new
+seed_domains.push ["ksl.com", nil]
+
 # keep track of pairs of domains and tags
 tags = Array.new
 
@@ -62,7 +65,7 @@ seed_domains.each { | seed |
             end
           
             if domain and domain.strip != '' and !discovered_domains.include? domain
-              # puts "href: #{URI.escape href.strip}"            
+              puts "href: #{URI.escape href.strip}"            
               discovered_domains.push domain              
             end            
           end
@@ -71,6 +74,7 @@ seed_domains.each { | seed |
     }
     end
   rescue URI::InvalidComponentError
+    # puts " URI::InvalidComponentError #{seed[0]}"
   rescue URI::InvalidURIError
     # puts " URI::InvalidURIError #{seed[0]}"
   end
@@ -81,12 +85,12 @@ seed_domains.each { | seed |
   if !(domain =~ ignore_domains)
     db.query "INSERT IGNORE INTO domains (name, discovered) VALUES ('#{Mysql.escape_string domain}', NOW())"
   end  
-}
+} 
   
   # create tags (ignore tags unless they start with a word character)
 tags.each { | tag |
-  if !(tag[:domain] =~ ignore_domains) and tag[:tag] =~ /^[\w\s]+/
-    # puts "#{tag[:tag]} -> #{tag[:domain]}"
+  if !(tag[:domain] =~ ignore_domains) and tag[:tag] =~ /^[\w\s]+$/
+    puts "#{tag[:tag]} -> #{tag[:domain]}"
     db.query "INSERT IGNORE INTO tags (name) VALUES ('#{Mysql.escape_string tag[:tag].strip}')"
     db.query "INSERT IGNORE INTO domain_tags (domain_id, tag_id) VALUES ((SELECT domains.id FROM domains WHERE domains.name = '#{Mysql.escape_string tag[:domain]}'), (SELECT tags.id FROM tags WHERE tags.name = '#{Mysql.escape_string tag[:tag].strip}'))"
   end

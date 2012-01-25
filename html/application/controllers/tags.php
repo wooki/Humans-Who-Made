@@ -17,7 +17,7 @@ class Tags extends CI_Controller {
     
     $sql = "SELECT tgs.* FROM (";
     $sql = $sql.$countuses;
-    $sql = $sql.") tgs ORDER BY tgs.uses LIMIT 500;";
+    $sql = $sql.") tgs ORDER BY tgs.uses LIMIT 300;";
     
   	$query = $this->db->query($sql);
 	  $tags = $query->result();
