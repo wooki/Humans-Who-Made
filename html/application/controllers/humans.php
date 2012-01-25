@@ -10,6 +10,7 @@ class Humans extends CI_Controller {
     $this->output->cache(60);
     
 		$sql = "SELECT domains.name, humans.discovered, humans.checked, humans.txt ";
+		$sql .= ",domains.title, domains.description ";
 		$sql .= "FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) ";
 		$sql .= "WHERE domains.name = ".$this->db->escape($domainname)." LIMIT 1;";
     
