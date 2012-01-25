@@ -37,7 +37,7 @@ class Sites extends CI_Controller {
     $sql .= "FROM domains INNER JOIN domain_tags ON (domains.id = domain_tags.domain_id) ";
     $sql .= "INNER JOIN tags ON (domain_tags.tag_id = tags.id) ";
     $sql .= "INNER JOIN humans ON (domains.id = humans.domain_id) ";
-    $sql .= "WHERE tags.name = '".$tagname."' ORDER BY domains.name;";
+    $sql .= "WHERE tags.name = '".$this->db->escape($tagname)."' ORDER BY domains.name;";
     
   	$query = $this->db->query($sql);
 	  $domains = $query->result();
