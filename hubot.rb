@@ -95,7 +95,9 @@ domains.each { | domain |
       if valid_content
         
         # insert new record
-        db.query "INSERT INTO humans (domain_id, discovered, checked, txt, title, description) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}', '#{Mysql.escape_string title}', '#{Mysql.escape_string description}')"
+        db.query "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
+
+        db.query "UPDATE domains SET title = '#{Mysql.escape_string title}', description = '#{Mysql.escape_string description}' WHERE id = #{domain[1]}"
         
       else
         puts " invalid content"
