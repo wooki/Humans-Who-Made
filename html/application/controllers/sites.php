@@ -9,7 +9,7 @@ class Sites extends CI_Controller {
     
     $this->output->cache(60);
     
-		$sql = "SELECT domains.name, humans.id FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) ORDER BY domains.name;";
+		$sql = "SELECT domains.name, humans.id, domains.title FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) ORDER BY domains.name;";
     
   	$query = $this->db->query($sql);
 	  $domains = $query->result();

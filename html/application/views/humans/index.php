@@ -1,6 +1,6 @@
 <div class="content">
 	<div class="page-header">
-		<h1><?php echo $human->name; ?> <small> the humans.txt</small></h1>
+		<h1><?php echo str_replace('www.', '', $human->name); ?> <small> the humans.txt</small></h1>
 	</div>
 	<div class="row">
 		<div class="span12">
