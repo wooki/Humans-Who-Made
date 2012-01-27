@@ -7,3 +7,7 @@
 **/*~
 **/**/*~
 **/**/**/*~
+*/application/cache/*
+vendor
+.bundle
+

@@ -22,17 +22,17 @@ seed_domains = Array.new
 discovered_domains = Array.new
 
 # use the domains that already have humans as seeds
-humans = db.query "SELECT domains.name, humans.id FROM domains inner join humans on (domains.id = humans.domain_id) ORDER BY humans.last_seed LIMIT 0, #{max_domains}"
+sql =  "(SELECT domains.name, humans.id FROM domains INNER JOIN humans on (domains.id = humans.domain_id) ORDER BY humans.last_seed LIMIT 0, #{max_domains})"
+sql += " UNION (SELECT domains.name, 0 FROM domains WHERE domains.name NOT IN (SELECT humans.domain_id FROM humans) ORDER BY domains.id DESC LIMIT 0, #{max_domains})"
+
+humans = db.query sql
+
 if humans.num_rows > 0
   seed_domains = humans  
 else
   # if we have no humans use a default set of domains
   seed_domains.push ["www.jimcode.org", nil ]
 end
-
-# always add a fast moving page of links to scan!
-seed_domains.push ["www.reddit.com/r/technology/", nil ]
-
 
 # keep track of pairs of domains and tags
 tags = Array.new
@@ -74,6 +74,7 @@ seed_domains.each { | seed |
       end      
     }
     end
+  rescue ArgumentError
   rescue URI::InvalidComponentError
     # puts " URI::InvalidComponentError #{seed[0]}"
   rescue URI::InvalidURIError
