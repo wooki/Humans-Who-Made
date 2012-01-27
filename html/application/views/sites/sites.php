@@ -10,7 +10,7 @@
 			
 			<div class="threecolumns">
 			<?php foreach ($domains as $domain) { ?>
-			<a href="/humans/<?php echo urlencode($domain->name); ?>" class="domain"><?php if ((!is_null($domain->title)) and ($domain->title != '')) { echo $domain->title; } else { echo str_replace('www.', '', $domain->name); } ?></a>
+			<p><a href="/humans/<?php echo urlencode($domain->name); ?>" class="domain"><?php if ((!is_null($domain->title)) and ($domain->title != '')) { echo $domain->title; } else { echo str_replace('www.', '', $domain->name); } ?></a></p>
 			<?php } ?>
 			</div>
 			
