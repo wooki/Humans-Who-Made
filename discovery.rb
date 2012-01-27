@@ -9,7 +9,7 @@ require 'anemone'
 require 'uri'
 
 # max no of domains to check each time
-max_domains = 10
+max_domains = 5 
 
 # regex of domains that we want to ignore - in this case googles many not .com domains!
 ignore_domains = /(twitter\.com)|(t\.co)|((\w+\.)?google\.\w\w\w?\.\w+)|((\w+\.)?google\.(?!com))/i
@@ -29,6 +29,10 @@ else
   # if we have no humans use a default set of domains
   seed_domains.push ["www.jimcode.org", nil ]
 end
+
+# always add a fast moving page of links to scan!
+seed_domains.push ["www.reddit.com/r/technology/", nil ]
+
 
 # keep track of pairs of domains and tags
 tags = Array.new
