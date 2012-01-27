@@ -42,7 +42,7 @@ tags = Array.new
 seed_domains.each { | seed |
 
   db.query "UPDATE humans SET last_seed = NOW() WHERE id = #{seed[1]}" if seed[1]
-  puts "Anemone is spidering #{seed[0]}"
+#  puts "Anemone is spidering #{seed[0]}"
   
   begin
     Anemone.crawl("http://#{seed[0]}", {:threads => 1, :depth_limit => 1}) do | anemone |
@@ -66,7 +66,7 @@ seed_domains.each { | seed |
             end
           
             if domain and domain.strip != '' and !discovered_domains.include? domain
-              #puts "href: #{URI.escape href.strip}"            
+              puts "href: #{URI.escape href.strip}"            
               discovered_domains.push domain              
             end            
           end

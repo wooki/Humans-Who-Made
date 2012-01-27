@@ -24,7 +24,7 @@ db = Mysql.new('localhost', 'root', 'atreides', 'humans')
 domains = db.query "SELECT domains.name, domains.id FROM domains WHERE domains.id NOT IN (SELECT domain_id FROM humans) ORDER BY discovered DESC LIMIT 0, #{max_domains}"
 
 domains.each { | domain |
-  puts "domain: #{domain[0]}"
+#  puts "domain: #{domain[0]}"
   
   url = "http://#{domain[0]}/humans.txt"
   
@@ -35,17 +35,17 @@ domains.each { | domain |
     homepage = agent.get("http://#{domain[0]}")
     process = true
     if homepage and homepage.root and homepage.root.root
-    puts "lang: #{homepage.root.root['lang'].downcase}" if homepage.root.root['lang']
-    puts "Header: #{homepage.response['Content-Language'].downcase}" if homepage.response['Content-Language']
-    puts "lang: #{homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content'].downcase}" if homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first and homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content']
+#    puts "lang: #{homepage.root.root['lang'].downcase}" if homepage.root.root['lang']
+#    puts "Header: #{homepage.response['Content-Language'].downcase}" if homepage.response['Content-Language']
+#    puts "lang: #{homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content'].downcase}" if homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first and homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content']
     
     # extract the title and meta description if we can
     titles = homepage.root.xpath('//title')
     title = titles.first.content() if titles.length > 0
     descriptions = homepage.root.xpath('//meta[@name="description"]')
     description = descriptions.first['content'] if descriptions.length > 0
-    puts "title: #{title}"
-    puts "description: #{description}"
+#    puts "title: #{title}"
+#    puts "description: #{description}"
     
     if (homepage.root.root['lang'] and
         (homepage.root.root['lang'].downcase != '' and
@@ -93,7 +93,7 @@ domains.each { | domain |
       end
       
       if valid_content
-        
+puts "HUMANS: #{domain[0]}"        
         # insert new record
         db.query "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
 

@@ -20,7 +20,7 @@ db = Mysql.new('localhost', 'root', 'atreides', 'humans')
 domains = db.query "SELECT domains.name, humans.id, humans.txt FROM humans INNER JOIN domains ON (humans.domain_id = domains.id) ORDER BY checked LIMIT 0, 25"
 
 domains.each { | domain |
-  puts "domain: #{domain[0]}"
+#  puts "domain: #{domain[0]}"
   
   url = "http://#{domain[0]}/humans.txt"
   
@@ -47,7 +47,8 @@ domains.each { | domain |
     if valid_content
       
       if content.strip != domain[2].strip
-      
+ 
+puts "Updated Human: #{domain[0]}"     
         # copy the existing record into the "versions"
         db.query "INSERT INTO human_versions (domain_id, last_seen, txt) SELECT domain_id, checked, txt FROM humans WHERE id = #{domain[1]}"
         
