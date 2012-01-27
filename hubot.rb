@@ -100,34 +100,34 @@ puts "HUMANS: #{domain[0]}"
         db.query "UPDATE domains SET title = '#{Mysql.escape_string title}', description = '#{Mysql.escape_string description}' WHERE id = #{domain[1]}"
         
       else
-        puts " invalid content"
+#        puts " invalid content"
       end
     else
-      puts " None English Content"
+#      puts " None English Content"
     end
   
   rescue Net::HTTP::Persistent::Error
-    puts " Net::HTTP::Persistent::Error"
+#    puts " Net::HTTP::Persistent::Error"
   rescue OpenSSL::SSL::SSLError
-    puts " OpenSSL::SSL::SSLError"
+#    puts " OpenSSL::SSL::SSLError"
   rescue EOFError
-    puts " EOFError"
+#    puts " EOFError"
   rescue URI::InvalidURIError
-    puts " URI::InvalidURIError"
+#    puts " URI::InvalidURIError"
   rescue Errno::ETIMEDOUT
-    puts " Errno::ETIMEDOUT"
+#    puts " Errno::ETIMEDOUT"
   rescue Errno::ECONNRESET
-    puts " Errno::ECONNRESET"
+#    puts " Errno::ECONNRESET"
   rescue Errno::ECONNREFUSED
-    puts " Errno::ECONNREFUSED"
+#    puts " Errno::ECONNREFUSED"
   rescue Timeout::Error
-    puts " Timeout::Error"
+#    puts " Timeout::Error"
   rescue SocketError
-    puts " SocketError"
+#    puts " SocketError"
   rescue OpenURI::HTTPError
-    puts " 404"
+#    puts " 404"
   rescue RuntimeError
-    puts " Runtime Error - probably a redirect"
+#    puts " Runtime Error - probably a redirect"
   end
   
    
