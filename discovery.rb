@@ -23,7 +23,7 @@ discovered_domains = Array.new
 
 # use the domains that already have humans as seeds
 sql =  "(SELECT domains.name, humans.id FROM domains INNER JOIN humans on (domains.id = humans.domain_id) ORDER BY humans.last_seed LIMIT 0, #{max_domains})"
-sql += " UNION (SELECT domains.name, 0 FROM domains WHERE domains.name NOT IN (SELECT humans.domain_id FROM humans) ORDER BY domains.id DESC LIMIT 0, #{max_domains})"
+sql += " UNION (SELECT domains.name, 0 FROM domains WHERE domains.name NOT IN (SELECT humans.domain_id FROM humans) ORDER BY domains.id DESC LIMIT 0, 1)"
 
 humans = db.query sql
 
