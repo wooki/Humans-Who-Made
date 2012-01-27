@@ -1,3 +1,9 @@
 RewriteEngine on
+
+# rewrite to canonical
+RewriteCond %{HTTP_HOST} ^www\.(.*) [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,NC,L]
+
+# rewrite to codeigniter index.php
 RewriteCond $1 !^(favicon\.ico|apple\w*.png|index\.php|img|js|css|humans\.txt|robots\.txt)
 RewriteRule ^(.*)$ /index.php/$1 [L]
