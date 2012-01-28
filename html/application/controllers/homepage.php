@@ -50,7 +50,7 @@ class Homepage extends CI_Controller {
    */
   public function about_us() {
 		
-    $this->output->cache(60);
+    $this->output->cache(5);
     
 		$query = $this->db->query("SELECT COUNT(id) counter FROM domains;");
 		foreach ($query->result() as $row) {
