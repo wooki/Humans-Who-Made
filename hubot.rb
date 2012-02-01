@@ -12,13 +12,13 @@ require 'nokogiri'
 require 'mechanize'
 
 # limit the number of domains checked
-max_domains = 25
+max_domains = 10
 
 # html markers
 html_markers = ['<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
 
 # connect
-db = Mysql.new('localhost', 'root', 'atreides', 'humans')
+db = Mysql.new('localhost', 'dbuser', 'thalia', 'humans')
 
 # get latest x domains without humans
 domains = db.query "SELECT domains.name, domains.id FROM domains WHERE domains.id NOT IN (SELECT domain_id FROM humans) ORDER BY discovered DESC LIMIT 0, #{max_domains}"

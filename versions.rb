@@ -14,7 +14,7 @@ require 'nokogiri'
 html_markers = ['<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
 
 # connect
-db = Mysql.new('localhost', 'root', 'atreides', 'humans')
+db = Mysql.new('localhost', 'dbuser', 'thalia', 'humans')
 
 # get humans, 
 domains = db.query "SELECT domains.name, humans.id, humans.txt FROM humans INNER JOIN domains ON (humans.domain_id = domains.id) ORDER BY checked LIMIT 0, 25"

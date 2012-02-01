@@ -12,10 +12,11 @@ require 'uri'
 max_domains = 5 
 
 # regex of domains that we want to ignore - in this case googles many not .com domains!
-ignore_domains = /(twitter\.com)|(t\.co)|((\w+\.)?google\.\w\w\w?\.\w+)|((\w+\.)?google\.(?!com))/i
+#ignore_domains = /(twitter\.com)|(t\.co)|((\w+\.)?google\.\w\w\w?\.\w+)|((\w+\.)?google\.(?!com))/i
+#ignore_domains = /xxxxxxxxxxxxxx/i
 
 # connect
-db = Mysql.new('localhost', 'root', 'atreides', 'humans')
+db = Mysql.new('localhost', 'dbuser', 'thalia', 'humans')
 
 # arrays of seed and new domains
 seed_domains = Array.new
@@ -84,14 +85,15 @@ seed_domains.each { | seed |
   
   # save each discovered domain to the database unless it is already there
   discovered_domains.each { | domain |
-  if !(domain =~ ignore_domains)
+#  if !(domain =~ ignore_domains)
     db.query "INSERT IGNORE INTO domains (name, discovered) VALUES ('#{Mysql.escape_string domain}', NOW())"
-  end  
+#  end  
 } 
   
   # create tags (ignore tags unless they start with a word character)
 tags.each { | tag |
-  if !(tag[:domain] =~ ignore_domains) and tag[:tag] =~ /^[a-zA-Z]([a-zA-Z0-9]+\s*)+$/
+#  if !(tag[:domain] =~ ignore_domains) and tag[:tag] =~ /^[a-zA-Z]([a-zA-Z0-9]+\s*)+$/
+  if tag[:tag] =~ /^[a-zA-Z]([a-zA-Z0-9]+\s*)+$/
     #puts "#{tag[:tag]} -> #{tag[:domain]}"
     db.query "INSERT IGNORE INTO tags (name) VALUES ('#{Mysql.escape_string tag[:tag].strip}')"
     db.query "INSERT IGNORE INTO domain_tags (domain_id, tag_id) VALUES ((SELECT domains.id FROM domains WHERE domains.name = '#{Mysql.escape_string tag[:domain]}'), (SELECT tags.id FROM tags WHERE tags.name = '#{Mysql.escape_string tag[:tag].strip}'))"

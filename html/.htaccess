@@ -1,5 +1,15 @@
 RewriteEngine on
 
+<Files .htaccess>
+   order allow,deny  
+   deny from all  
+</Files>
+
+<Files wp-config.php>
+   order allow,deny  
+   deny from all  
+</Files>
+
 # rewrite to canonical
 RewriteCond %{HTTP_HOST} ^www\.(.*) [NC]
 RewriteRule ^(.*)$ http://%1/$1 [R=301,NC,L]
