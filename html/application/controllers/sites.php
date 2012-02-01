@@ -7,7 +7,7 @@ class Sites extends CI_Controller {
 	 */
 	public function index() {
     
-    $this->output->cache(60);
+    $this->output->cache(5);
     
 		#$sql = "SELECT domains.name, humans.id, domains.title FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) ORDER BY domains.name;";
     $sql = "SELECT MAX(domains.name) name, MAX(humans.id) id, domains.title FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) GROUP BY domains.title, humans.txt;";
@@ -30,7 +30,7 @@ class Sites extends CI_Controller {
 	 */
 	public function tag($tagname) {
     
-		$this->output->cache(60);
+		$this->output->cache(5);
     
 		$tagname = urldecode($tagname);
 		
