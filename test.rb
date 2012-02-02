@@ -21,9 +21,7 @@ html_markers = ['<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br /
 db = Mysql.new('localhost', 'dbuser', 'thalia', 'humans')
 
 # get latest x domains without humans
-domains = db.query "SELECT domains.name, domains.id FROM domains WHERE domains.id NOT IN (SELECT domain_id FROM humans) ORDER BY human_checked LIMIT 0, #{max_domains}"
-
-domains.each { | domain |
+domain = ['raul-martinez.es', '']
   puts "domain: #{domain[0]}"
   
   url = "http://#{domain[0]}/humans.txt"
@@ -35,17 +33,17 @@ domains.each { | domain |
     homepage = agent.get("http://#{domain[0]}")
     process = true
     if homepage and homepage.root and homepage.root.root
-#    puts "lang: #{homepage.root.root['lang'].downcase}" if homepage.root.root['lang']
-#    puts "Header: #{homepage.response['Content-Language'].downcase}" if homepage.response['Content-Language']
-#    puts "lang: #{homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content'].downcase}" if homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first and homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content']
+    puts "lang: #{homepage.root.root['lang'].downcase}" if homepage.root.root['lang']
+    puts "Header: #{homepage.response['Content-Language'].downcase}" if homepage.response['Content-Language']
+    puts "lang: #{homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content'].downcase}" if homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first and homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content']
     
     # extract the title and meta description if we can
     titles = homepage.root.xpath('//title')
     title = titles.first.content() if titles.length > 0
     descriptions = homepage.root.xpath('//meta[@name="description"]')
     description = descriptions.first['content'] if descriptions.length > 0
-#    puts "title: #{title}"
-#    puts "description: #{description}"
+    puts "title: #{title}"
+    puts "description: #{description}"
     
     if (homepage.root.root['lang'] and
         (homepage.root.root['lang'].downcase != '' and
@@ -68,13 +66,12 @@ domains.each { | domain |
           )                
         )
        
-       process = false
+#       process = false
     end
     end
  
     if process
     
-      #doc = Nokogiri::HTML(open(url))
       doc = open(url)
       content = doc.read
       content.strip!
@@ -94,10 +91,12 @@ domains.each { | domain |
       
       if valid_content
 puts "HUMANS: #{domain[0]}"        
+puts "#{content}"
         # insert new record
-        db.query "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
+#        db.query "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
+#puts "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
 
-        db.query "UPDATE domains SET human_checked = NOW(), title = '#{Mysql.escape_string title}', description = '#{Mysql.escape_string description}' WHERE id = #{domain[1]}"
+#        db.query "UPDATE domains SET human_checked = NOW(), title = '#{Mysql.escape_string title}', description = '#{Mysql.escape_string description}' WHERE id = #{domain[1]}"
         
       else
         puts " invalid content"
@@ -132,9 +131,9 @@ puts "HUMANS: #{domain[0]}"
   rescue Timeout::Error
     puts " Timeout::Error"
     process = false
-  rescue SocketError
-    puts " SocketError"
-    process = false
+  #irescue SocketError
+    #puts " SocketError"
+   # process = false
   rescue OpenURI::HTTPError
     puts " 404"
     process = false
@@ -144,6 +143,6 @@ puts "HUMANS: #{domain[0]}"
   end
   
   if !process
-    db.query "UPDATE domains SET human_checked = NOW() WHERE id = #{domain[1]}"
+#    db.query "UPDATE domains SET human_checked = NOW() WHERE id = #{domain[1]}"
   end
-}
+
