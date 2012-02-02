@@ -21,7 +21,7 @@ html_markers = ['<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br /
 db = Mysql.new('localhost', 'dbuser', 'thalia', 'humans')
 
 # get latest x domains without humans
-domains = db.query "SELECT domains.name, domains.id FROM domains WHERE domains.id NOT IN (SELECT domain_id FROM humans) ORDER BY discovered DESC LIMIT 0, #{max_domains}"
+domains = db.query "SELECT domains.name, domains.id FROM domains WHERE domains.id NOT IN (SELECT domain_id FROM humans) ORDER BY human_checked LIMIT 0, #{max_domains}"
 
 domains.each { | domain |
   puts "domain: #{domain[0]}"
@@ -97,7 +97,7 @@ puts "HUMANS: #{domain[0]}"
         # insert new record
         db.query "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
 
-        db.query "UPDATE domains SET title = '#{Mysql.escape_string title}', description = '#{Mysql.escape_string description}' WHERE id = #{domain[1]}"
+        db.query "UPDATE domains SET human_checked = NOW(), title = '#{Mysql.escape_string title}', description = '#{Mysql.escape_string description}' WHERE id = #{domain[1]}"
         
       else
         puts " invalid content"
@@ -130,5 +130,7 @@ puts "HUMANS: #{domain[0]}"
     puts " Runtime Error - probably a redirect"
   end
   
-   
+  if !process
+    db.query "UPDATE domains SET human_checked = NOW() WHERE id = #{domain[1]}"
+  end
 }

@@ -1,0 +1,1 @@
+ALTER TABLE domains ADD COLUMN human_checked datetime;
