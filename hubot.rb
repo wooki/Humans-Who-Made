@@ -10,6 +10,7 @@ require 'open-uri'
 require 'net/http'
 require 'nokogiri'
 require 'mechanize'
+require 'UniversalDetector' # character encodign detection
 
 # limit the number of domains checked
 max_domains = 10
@@ -93,7 +94,14 @@ domains.each { | domain |
       end
       
       if valid_content
-puts "HUMANS: #{domain[0]}"        
+        puts "HUMANS: #{domain[0]}"
+        
+        encoding_detect = UniversalDetector::chardet(content)
+        if encoding_detect['encoding'].downcase != 'utf-8'
+          puts "   #{encoding_detect['encoding']} => #{encoding_detect['confidence']}"
+          content = Iconv.conv('utf-8', encoding_detect['encoding'], content)
+        end
+
         # insert new record
         db.query "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
 
