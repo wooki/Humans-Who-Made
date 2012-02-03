@@ -11,6 +11,7 @@ require 'net/http'
 require 'nokogiri'
 require 'mechanize'
 require 'UniversalDetector' # character encodign detection
+require 'iconv'
 
 # limit the number of domains checked
 max_domains = 25
@@ -45,6 +46,7 @@ domains.each { | domain |
     title = titles.first.content() if titles.length > 0
     descriptions = homepage.root.xpath('//meta[@name="description"]')
     description = descriptions.first['content'] if descriptions.length > 0
+    
 #    puts "title: #{title}"
 #    puts "description: #{description}"
     
@@ -95,6 +97,21 @@ domains.each { | domain |
       
       if valid_content
         puts "HUMANS: #{domain[0]}"
+        
+        if description
+          encoding_detect = UniversalDetector::chardet(description)
+          if encoding_detect and encoding_detect['encoding'] and encoding_detect['encoding'].downcase != 'utf-8'
+            puts "   #{encoding_detect['encoding']} => #{encoding_detect['confidence']}"
+            description = Iconv.conv('utf-8', encoding_detect['encoding'], description)
+          end
+        end
+        if title
+          encoding_detect = UniversalDetector::chardet(title)
+          if encoding_detect and encoding_detect['encoding'] and encoding_detect['encoding'].downcase != 'utf-8'
+            puts "   #{encoding_detect['encoding']} => #{encoding_detect['confidence']}"
+            title = Iconv.conv('utf-8', encoding_detect['encoding'], title)
+          end
+        end
         
         encoding_detect = UniversalDetector::chardet(content)
         if encoding_detect['encoding'].downcase != 'utf-8'

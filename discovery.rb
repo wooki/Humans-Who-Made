@@ -7,6 +7,8 @@ require 'rubygems'
 require 'mysql'
 require 'anemone'
 require 'uri'
+require 'UniversalDetector' # character encodign detection
+require 'iconv'
 
 # max no of domains to check each time
 max_domains = 5 
@@ -54,6 +56,13 @@ seed_domains.each { | seed |
         page.doc.xpath('//a').each { | element |
           href = element.attr('href')
           tag = element.content
+          
+          encoding_detect = UniversalDetector::chardet(tag)
+          if encoding_detect and encoding_detect['encoding'] and encoding_detect['encoding'].downcase != 'utf-8'
+            puts "   #{encoding_detect['encoding']} => #{encoding_detect['confidence']}"
+            tag = Iconv.conv('utf-8', encoding_detect['encoding'], tag)
+          end
+          
           if href
             domain = URI.parse(URI.escape href.strip).host
             if domain != seed[0]
