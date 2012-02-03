@@ -13,10 +13,10 @@ require 'mechanize'
 require 'UniversalDetector' # character encodign detection
 
 # limit the number of domains checked
-max_domains = 10
+max_domains = 25
 
 # html markers
-html_markers = ['<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
+html_markers = ['<pre', '<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
 
 # connect
 db = Mysql.new('localhost', 'dbuser', 'thalia', 'humans')
@@ -105,8 +105,10 @@ domains.each { | domain |
         # insert new record
         db.query "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
 
+if title and description
         db.query "UPDATE domains SET human_checked = NOW(), title = '#{Mysql.escape_string title}', description = '#{Mysql.escape_string description}' WHERE id = #{domain[1]}"
-        
+end        
+
       else
         puts " invalid content"
     	process = false
