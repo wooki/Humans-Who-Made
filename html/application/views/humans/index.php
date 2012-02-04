@@ -11,7 +11,6 @@
 			<p><?php echo $human->description; ?></p>
 			<?php } ?>
 <pre>
-test
 <?php echo htmlentities($human->txt); ?>
 </pre>
 			<p>Visit the <a href="http://<?php echo $human->name; ?>"><?php echo $human->name; ?></a> website.</p>
