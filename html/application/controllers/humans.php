@@ -7,7 +7,7 @@ class Humans extends CI_Controller {
 	 */
 	public function index($domainname) {
     
-    $this->output->cache(5);
+#    $this->output->cache(5);
     
 		$sql = "SELECT domains.name, humans.discovered, humans.checked, humans.txt ";
 		$sql .= ",domains.title, domains.description ";
