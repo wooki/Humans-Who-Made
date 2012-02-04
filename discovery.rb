@@ -60,7 +60,10 @@ seed_domains.each { | seed |
           encoding_detect = UniversalDetector::chardet(tag)
           if encoding_detect and encoding_detect['encoding'] and encoding_detect['encoding'].downcase != 'utf-8'
             puts "   #{encoding_detect['encoding']} => #{encoding_detect['confidence']}"
-            tag = Iconv.conv('utf-8', encoding_detect['encoding'], tag)
+            begin
+              tag = Iconv.conv('utf-8', encoding_detect['encoding'], tag)
+            rescue Iconv::IllegalSequence
+            end
           end
           
           if href

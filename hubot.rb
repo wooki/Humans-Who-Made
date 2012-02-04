@@ -102,21 +102,30 @@ domains.each { | domain |
           encoding_detect = UniversalDetector::chardet(description)
           if encoding_detect and encoding_detect['encoding'] and encoding_detect['encoding'].downcase != 'utf-8'
             puts "   #{encoding_detect['encoding']} => #{encoding_detect['confidence']}"
-            description = Iconv.conv('utf-8', encoding_detect['encoding'], description)
+            begin
+              description = Iconv.conv('utf-8', encoding_detect['encoding'], description)
+            rescue Iconv::IllegalSequence
+            end
           end
         end
         if title
           encoding_detect = UniversalDetector::chardet(title)
           if encoding_detect and encoding_detect['encoding'] and encoding_detect['encoding'].downcase != 'utf-8'
             puts "   #{encoding_detect['encoding']} => #{encoding_detect['confidence']}"
-            title = Iconv.conv('utf-8', encoding_detect['encoding'], title)
+            begin
+              title = Iconv.conv('utf-8', encoding_detect['encoding'], title)
+            rescue Iconv::IllegalSequence
+            end
           end
         end
         
         encoding_detect = UniversalDetector::chardet(content)
         if encoding_detect['encoding'].downcase != 'utf-8'
           puts "   #{encoding_detect['encoding']} => #{encoding_detect['confidence']}"
-          content = Iconv.conv('utf-8', encoding_detect['encoding'], content)
+          begin
+            content = Iconv.conv('utf-8', encoding_detect['encoding'], content)
+          rescue Iconv::IllegalSequence
+          end
         end
 
         # insert new record
