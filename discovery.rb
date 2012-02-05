@@ -7,8 +7,6 @@ require 'rubygems'
 require 'mysql'
 require 'anemone'
 require 'uri'
-require 'UniversalDetector' # character encodign detection
-require 'iconv'
 
 # max no of domains to check each time
 max_domains = 5 
@@ -18,7 +16,9 @@ max_domains = 5
 #ignore_domains = /xxxxxxxxxxxxxx/i
 
 # connect
-db = Mysql.new('localhost', 'dbuser', 'thalia', 'humans')
+db = Mysql.init
+db.options(Mysql::SET_CHARSET_NAME, 'utf8')
+db.connect('localhost', 'dbuser', 'thalia', 'humans')
 
 # arrays of seed and new domains
 seed_domains = Array.new
@@ -56,15 +56,6 @@ seed_domains.each { | seed |
         page.doc.xpath('//a').each { | element |
           href = element.attr('href')
           tag = element.content
-          
-          encoding_detect = UniversalDetector::chardet(tag)
-          if encoding_detect and encoding_detect['encoding'] and encoding_detect['encoding'].downcase != 'utf-8'
-            puts "   #{encoding_detect['encoding']} => #{encoding_detect['confidence']}"
-            begin
-              tag = Iconv.conv('utf-8', encoding_detect['encoding'], tag)
-            rescue Iconv::IllegalSequence
-            end
-          end
           
           if href
             domain = URI.parse(URI.escape href.strip).host

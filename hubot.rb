@@ -10,8 +10,6 @@ require 'open-uri'
 require 'net/http'
 require 'nokogiri'
 require 'mechanize'
-require 'UniversalDetector' # character encodign detection
-require 'iconv'
 
 # limit the number of domains checked
 max_domains = 25
@@ -20,7 +18,9 @@ max_domains = 25
 html_markers = ['<pre', '<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
 
 # connect
-db = Mysql.new('localhost', 'dbuser', 'thalia', 'humans')
+db = Mysql.init
+db.options(Mysql::SET_CHARSET_NAME, 'utf8')
+db.connect('localhost', 'dbuser', 'thalia', 'humans')
 
 # get latest x domains without humans
 domains = db.query "SELECT domains.name, domains.id FROM domains WHERE domains.id NOT IN (SELECT domain_id FROM humans) ORDER BY human_checked LIMIT 0, #{max_domains}"
@@ -80,7 +80,7 @@ domains.each { | domain |
       #doc = Nokogiri::HTML(open(url))
       doc = open(url)
       content = doc.read
-      content.strip!
+      #content.strip!
       
       # ignore html style content - likely a 404 page that sends 200, or spam!
       valid_content = true
@@ -98,35 +98,8 @@ domains.each { | domain |
       if valid_content
         puts "HUMANS: #{domain[0]}"
         
-        if description
-          encoding_detect = UniversalDetector::chardet(description)
-          if encoding_detect and encoding_detect['encoding'] and encoding_detect['encoding'].downcase != 'utf-8'
-            puts "   #{encoding_detect['encoding']} => #{encoding_detect['confidence']}"
-            begin
-              description = Iconv.conv('utf-8', encoding_detect['encoding'], description)
-            rescue Iconv::IllegalSequence
-            end
-          end
-        end
-        if title
-          encoding_detect = UniversalDetector::chardet(title)
-          if encoding_detect and encoding_detect['encoding'] and encoding_detect['encoding'].downcase != 'utf-8'
-            puts "   #{encoding_detect['encoding']} => #{encoding_detect['confidence']}"
-            begin
-              title = Iconv.conv('utf-8', encoding_detect['encoding'], title)
-            rescue Iconv::IllegalSequence
-            end
-          end
-        end
-        
-        encoding_detect = UniversalDetector::chardet(content)
-        if encoding_detect['encoding'].downcase != 'utf-8'
-          puts "   #{encoding_detect['encoding']} => #{encoding_detect['confidence']}"
-          begin
-            content = Iconv.conv('utf-8', encoding_detect['encoding'], content)
-          rescue Iconv::IllegalSequence
-          end
-        end
+puts content        
+puts content.encoding.name
 
         # insert new record
         db.query "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
@@ -144,6 +117,9 @@ end
       process = false
     end
   
+  rescue Errno::EHOSTUNREACH
+    puts " Errno::EHOSTUNREACH"
+    process = false
   rescue Net::HTTP::Persistent::Error
     process = false
     puts " Net::HTTP::Persistent::Error"
