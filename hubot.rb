@@ -35,8 +35,8 @@ domains.each { | domain |
     # load the homepage of the site and check for the language
     agent = Mechanize.new
     homepage = agent.get("http://#{domain[0]}")
-    process = true
-    if homepage and homepage.root and homepage.root.root
+process = true
+    if homepage and homepage.root and homepage.root.root 
 #    puts "lang: #{homepage.root.root['lang'].downcase}" if homepage.root.root['lang']
 #    puts "Header: #{homepage.response['Content-Language'].downcase}" if homepage.response['Content-Language']
 #    puts "lang: #{homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content'].downcase}" if homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first and homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content']
@@ -49,30 +49,19 @@ domains.each { | domain |
     
 #    puts "title: #{title}"
 #    puts "description: #{description}"
-    
-    if (homepage.root.root['lang'] and
-        (homepage.root.root['lang'].downcase != '' and
-        homepage.root.root['lang'].downcase != 'en' and
-        homepage.root.root['lang'].downcase != 'en-gb' and
-        homepage.root.root['lang'].downcase != 'en-us'
-        )) or
-        ( homepage.response['Content-Language'] and
-         (homepage.response['Content-Language'].downcase != '' and
-         homepage.response['Content-Language'].downcase != 'en' and
-         homepage.response['Content-Language'].downcase != 'en-gb' and
-         homepage.response['Content-Language'].downcase != 'en-us'
-        )) or
-        ( homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first and
-          (
-            homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content'].downcase != '' and
-            homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content'].downcase != 'en' and
-            homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content'].downcase != 'en-gb' and
-            homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first['content'].downcase != 'en-us'
-          )                
-        )
-       
+lang = ''
+lang = homepage.root.root['lang'].downcase if homepage.root.root['lang']
+lang = homepage.response['Content-Language'].downcase if homepage.response['Content-Language'] and lang == ''     
+metalang = homepage.root.xpath('//meta[@http-equiv="Content-Language"]').first 
+lang = metalang['content'].downcase if metalang and metalang['content'] and lang ==''
+
+    if (lang != '' and
+        lang != 'en' and
+        lang != 'en-gb' and
+        lang != 'en-us')
+     
        process = false
-    end
+end
     end
  
     if process
@@ -80,7 +69,6 @@ domains.each { | domain |
       #doc = Nokogiri::HTML(open(url))
       doc = open(url)
       content = doc.read
-      #content.strip!
       
       # ignore html style content - likely a 404 page that sends 200, or spam!
       valid_content = true
@@ -97,15 +85,16 @@ domains.each { | domain |
       
       if valid_content
         puts "HUMANS: #{domain[0]}"
-        
-puts content        
-puts content.encoding.name
-
+begin        
+   content = content.encode('utf-8')
+rescue Encoding::UndefinedConversionError
+   puts " could not convert to utf-8"
+end
         # insert new record
         db.query "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
 
 if title and description
-        db.query "UPDATE domains SET human_checked = NOW(), title = '#{Mysql.escape_string title}', description = '#{Mysql.escape_string description}' WHERE id = #{domain[1]}"
+        db.query "UPDATE domains SET lang = '#{lang}', human_checked = NOW(), title = '#{Mysql.escape_string title}', description = '#{Mysql.escape_string description}' WHERE id = #{domain[1]}"
 end        
 
       else
@@ -116,7 +105,13 @@ end
       puts " None English Content"
       process = false
     end
-  
+ 
+  rescue NoMethodError
+    puts " NoMethodError"
+    process = false
+  rescue Net::HTTPBadResponse
+    puts " Net::HTTPBadResponse"
+    process = false
   rescue Errno::EHOSTUNREACH
     puts " Errno::EHOSTUNREACH"
     process = false
