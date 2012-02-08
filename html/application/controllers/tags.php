@@ -19,6 +19,7 @@ class Tags extends CI_Controller {
     $sql = $sql.$countuses;
     $sql = $sql.") tgs ORDER BY tgs.uses LIMIT 300;";
     
+  	mysql_set_charset("utf8");
   	$query = $this->db->query($sql);
 	  $tags = $query->result();
     shuffle($tags);

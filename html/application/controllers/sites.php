@@ -12,6 +12,7 @@ class Sites extends CI_Controller {
 		#$sql = "SELECT domains.name, humans.id, domains.title FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) ORDER BY domains.name;";
     $sql = "SELECT MAX(domains.name) name, MAX(humans.id) id, domains.title FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) GROUP BY domains.title, humans.txt;";
     
+  	mysql_set_charset("utf8");
   	$query = $this->db->query($sql);
 	  $domains = $query->result();
     
@@ -40,6 +41,7 @@ class Sites extends CI_Controller {
     $sql .= "INNER JOIN humans ON (domains.id = humans.domain_id) ";
     $sql .= "WHERE tags.name = ".$this->db->escape($tagname)." GROUP BY domains.title, humans.txt";
     
+  	mysql_set_charset("utf8");
   	$query = $this->db->query($sql);
 	  $domains = $query->result();
     

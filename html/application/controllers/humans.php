@@ -14,6 +14,7 @@ class Humans extends CI_Controller {
 		$sql .= "FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) ";
 		$sql .= "WHERE domains.name = ".$this->db->escape($domainname)." LIMIT 1;";
     
+		mysql_set_charset("utf8");
   	$query = $this->db->query($sql);
 	  $humans = $query->result();
     $human = $humans[0];

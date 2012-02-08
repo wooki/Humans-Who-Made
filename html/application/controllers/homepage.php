@@ -19,6 +19,7 @@ class Homepage extends CI_Controller {
     $sql = $sql.$countuses;
     $sql = $sql.") tgs ORDER BY tgs.uses LIMIT 20;";
     
+  	mysql_set_charset("utf8");
   	$query = $this->db->query($sql);
 	  $tags = $query->result();
     shuffle($tags);
@@ -52,7 +53,8 @@ class Homepage extends CI_Controller {
 		
     $this->output->cache(5);
     
-		$query = $this->db->query("SELECT COUNT(id) counter FROM domains;");
+		mysql_set_charset("utf8");
+  	$query = $this->db->query("SELECT COUNT(id) counter FROM domains;");
 		foreach ($query->result() as $row) {
 			$count_domains = $row->counter;
 		}
