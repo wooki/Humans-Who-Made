@@ -4,7 +4,7 @@
 		<h1>Websites <small> with humans.txt</small></h1>
 	</div>
 	<div class="row">
-		<div class="span14">
+		<div class="span12">
 			<p>The following domains have all been indexed by <em>Humans Who Made</em> and found to have humans.txt
 		files, take a look through to see who was behind the creation of each site.</p>
 			

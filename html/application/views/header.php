@@ -36,18 +36,25 @@
   </head>
 
   <body>
-
-    <div class="topbar">
-      <div class="fill">
+    
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner  ">
         <div class="container">
           <a class="brand" href="/">Humans Who Made</a>
-          <ul class="nav">
-            <li<?php if ($active == 'home') { echo ' class="active"'; } ?>><a href="/">Home</a></li>
-            <li<?php if ($active == 'about-us') { echo ' class="active"'; } ?>><a href="/about-us">About</a></li>
-            <li<?php if ($active == 'humans-txt') { echo ' class="active"'; } ?>><a href="/humans-txt">humans.txt</a></li>
-            <li<?php if ($active == 'tags') { echo ' class="active"'; } ?>><a href="/tags">Tags</a></li>
-            <li<?php if ($active == 'sites') { echo ' class="active"'; } ?>><a href="/sites">Websites</a></li>
-          </ul>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li<?php if ($active == 'home') { echo ' class="active"'; } ?>><a href="/">Home</a></li>
+              <li<?php if ($active == 'about-us') { echo ' class="active"'; } ?>><a href="/about-us">About</a></li>
+              <li<?php if ($active == 'humans-txt') { echo ' class="active"'; } ?>><a href="/humans-txt">humans.txt</a></li>
+              <li<?php if ($active == 'tags') { echo ' class="active"'; } ?>><a href="/tags">Tags</a></li>
+              <li<?php if ($active == 'sites') { echo ' class="active"'; } ?>><a href="/sites">Websites</a></li>
+            </ul>
+            <ul class="nav pull-right">
+              <li><a href="/humans.txt">
+                <img src="/img/humanstxt.png" alt="Humans  " />
+              </a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

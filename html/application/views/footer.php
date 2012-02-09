@@ -1,3 +1,5 @@
+	 <hr />
+	 
 	 <footer>
 			<p>&copy; Jim Rowe 2012</p>
 	 </footer>

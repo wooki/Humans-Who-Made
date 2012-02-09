@@ -4,7 +4,7 @@
 		<h1>Humans.txt <small> about the standard</small></h1>
 	</div>
 	<div class="row">
-		<div class="span12">
+		<div class="span10">
 			
 			<h2>Introduction</h2>
 			<p><em>Humans Who Made</em> was built in order to give credit to those people who
