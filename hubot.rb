@@ -15,7 +15,7 @@ require 'mechanize'
 max_domains = 25
 
 # html markers
-html_markers = ['<script', '<SCRIPT', '<html>', '<HTML', '<!DOC', '<pre', '<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
+html_markers = ['<META', '<script', '<SCRIPT', '<html>', '<HTML', '<!DOC', '<pre', '<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
 
 # connect
 db = Mysql.init
