@@ -105,7 +105,10 @@ end
       puts " None English Content"
       process = false
     end
- 
+
+  rescue Zlib::GzipFile::NoFooter 
+    puts " Zlib::GzipFile::NoFooter"
+    process = false
   rescue NoMethodError
     puts " NoMethodError"
     process = false
