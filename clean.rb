@@ -6,26 +6,25 @@
 require 'rubygems'
 require 'mysql'
 
-# regex of domains that we want to ignore
-ignore_domains = /((\w+\.)?google\.\w\w\w?\.\w+)|((\w+\.)?google\.(?!com))/i
+html_markers = ['Page not found', '<META', '<script', '<SCRIPT', '<html>', '<HTML', '<!DOC', '<pre', '<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
 
 # connect
 db = Mysql.new('localhost', 'dbuser', 'thalia', 'humans')
 
 # load all domains
-domains = db.query "SELECT * FROM domains"
-domains.each { | domain |
+humans = db.query "SELECT domain_id, txt FROM humans"
+humans.each { | human |
   
   # check if allowed
-  if domain[1] =~ ignore_domains
-    
-    puts "remove: #{domain[1]}"
-    db.query("DELETE FROM domain_tags WHERE domain_id = #{domain[0]}")
-    db.query("DELETE FROM human_versions WHERE domain_id = #{domain[0]}")
-    db.query("DELETE FROM humans WHERE domain_id = #{domain[0]}")
-    db.query("DELETE FROM domains WHERE id = #{domain[0]}")  
-  end
-
+  html_markers.each { | marker |
+    if human[1].include? marker or human[1].gsub(/\s+/, '').strip == ''   
+      puts "remove: #{human[0]}"
+      db.query("DELETE FROM domain_tags WHERE domain_id = #{human[0]}")
+      db.query("DELETE FROM human_versions WHERE domain_id = #{human[0]}")
+      db.query("DELETE FROM humans WHERE domain_id = #{human[0]}")
+      db.query("DELETE FROM domains WHERE id = #{human[0]}")  
+    end
+  }
 }
 
 # load all tags and remove any that don't start with a word character

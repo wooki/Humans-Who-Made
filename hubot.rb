@@ -15,7 +15,7 @@ require 'mechanize'
 max_domains = 25
 
 # html markers
-html_markers = ['<META', '<script', '<SCRIPT', '<html>', '<HTML', '<!DOC', '<pre', '<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
+html_markers = ['Page not found', '<META', '<script', '<SCRIPT', '<html>', '<HTML', '<!DOC', '<pre', '<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
 
 # connect
 db = Mysql.init
@@ -90,16 +90,22 @@ begin
 rescue Encoding::UndefinedConversionError
    puts " could not convert to utf-8"
 end
-        # insert new record
-        db.query "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
+        if content.gsub(/\s+/, "").strip != ''
+        
+          # insert new record
+          db.query "INSERT INTO humans (domain_id, discovered, checked, txt) VALUES (#{domain[1]}, NOW(), NOW(), '#{Mysql.escape_string content}')"
+  
+          if title and description
+            db.query "UPDATE domains SET lang = '#{lang}', human_checked = NOW(), title = '#{Mysql.escape_string title}', description = '#{Mysql.escape_string description}' WHERE id = #{domain[1]}"
+          end        
 
-if title and description
-        db.query "UPDATE domains SET lang = '#{lang}', human_checked = NOW(), title = '#{Mysql.escape_string title}', description = '#{Mysql.escape_string description}' WHERE id = #{domain[1]}"
-end        
-
+        else
+          puts " blank content"
+          process = false
+        end
       else
         puts " invalid content"
-    	process = false
+      	process = false
       end
     else
       puts " None English Content"
