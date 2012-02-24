@@ -10,7 +10,7 @@ require 'mysql'
 ignore_domains = /((\w+\.)?google\.\w\w\w?\.\w+)|((\w+\.)?google\.(?!com))/i
 
 # connect
-db = Mysql.new('localhost', 'root', 'atreides', 'humans')
+db = Mysql.new('localhost', 'dbuser', 'thalia', 'humans')
 
 # load all domains
 domains = db.query "SELECT * FROM domains"
