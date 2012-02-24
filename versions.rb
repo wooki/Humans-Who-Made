@@ -11,7 +11,7 @@ require 'net/http'
 require 'nokogiri'
 
 # html markers
-html_markers = ['does not exist', 'Page not found', '<META', '<script', '<SCRIPT', '<html>', '<HTML', '<!DOC', '<pre', '<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
+html_markers = ['not found', 'does not exist', 'Page not found', '<META', '<script', '<SCRIPT', '<html>', '<HTML', '<!DOC', '<pre', '<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
 
 # connect
 db = Mysql.new('localhost', 'dbuser', 'thalia', 'humans')
