@@ -112,6 +112,9 @@ end
       process = false
     end
 
+  rescue Zlib::DataError
+    puts " Zlib::DataError"
+    process = false
   rescue Zlib::GzipFile::NoFooter 
     puts " Zlib::GzipFile::NoFooter"
     process = false
