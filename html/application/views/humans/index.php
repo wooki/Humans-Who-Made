@@ -22,18 +22,10 @@
 <pre>
 <?php echo $human->txt; ?>
 </pre>
-			<p>Visit the <a href="http://<?php echo $human->name; ?>"><?php echo $human->name; ?></a> website.</p>
-		</div>
-		<div class="span3">
-			<h2>Tags</h2>
-			<?php foreach ($tags as $tag) { ?>
-	<a href="/tag/<?php echo urlencode($tag->name); ?>" class="tag label label-info"><?php echo $tag->name; ?></a>
-	<?php } ?>
-		</div>
-	</div>
-	
-	<div class="row">
-		<div class="span9">
+
+<p>Visit the <a href="http://<?php echo $human->name; ?>"><?php echo $human->name; ?></a> website.</p>
+
+<p>&nbsp;</p>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
@@ -44,10 +36,13 @@
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
 
-			
+		</div>
+		<div class="span3">
+			<h2>Tags</h2>
+			<?php foreach ($tags as $tag) { ?>
+	<a href="/tag/<?php echo urlencode($tag->name); ?>" class="tag label label-info"><?php echo $tag->name; ?></a>
+	<?php } ?>
 		</div>
 	</div>
 	

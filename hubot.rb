@@ -73,7 +73,7 @@ end
       
       # ignore html style content - likely a 404 page that sends 200, or spam!
       valid_content = true
-      if !content or content == ''
+      if !content or content == '' or content.length < 8
         valid_content = false
       end
       if valid_content

@@ -5,9 +5,9 @@
 	curious.</p>
 	<p><a href="/about-us" class="btn btn-primary btn-large">Learn more &raquo;</a>
 		
-	<div style="top: -20px; margin-right: 80px; float: right;"><div class="fb-like" data-href="http://humanswhomade.com" data-send="false" data-layout="button_count" data-show-faces="false"></div></div>
-	<div style="top: -20px; float: right;"><g:plusone size="medium"></g:plusone></div>
-	<div style="top: -20px; float: right;"><a href="https://twitter.com/share" class="twitter-share-button" data-via="HumansWhoMade">Tweet</a></div>
+	<div style="position: relative; top: -20px; margin-right: 120px; float: right;"><div class="fb-like" data-href="http://humanswhomade.com" data-send="false" data-layout="button_count" data-show-faces="false"></div></div>
+	<div style="position: relative; top: -20px; float: right;"><g:plusone size="medium"></g:plusone></div>
+	<div style="position: relative; top: -20px; float: right;"><a href="https://twitter.com/share" class="twitter-share-button" data-via="HumansWhoMade">Tweet</a></div>
 	</p>
 
 	</p>

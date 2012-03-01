@@ -4,7 +4,7 @@
 		<h1>Humans.txt <small> about the standard</small></h1>
 	</div>
 	<div class="row">
-		<div class="span10">
+		<div class="span7">
 			
 			<h2>Introduction</h2>
 			<p><em>Humans Who Made</em> was built in order to give credit to those people who
@@ -29,5 +29,9 @@
 			page for some more ideas.</p>
 			
 		</div>
+                <div class="span3">
+<p class="right" style="margin-top: 150px;"><img src="/img/Dino_green_256x256.png" height="256" width="256" alt="Dino.txt next?" /></p>
+                </div>
+
 	</div>
 </div>

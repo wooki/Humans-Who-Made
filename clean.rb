@@ -17,7 +17,7 @@ humans.each { | human |
   
   # check if allowed
   html_markers.each { | marker |
-    if human[1].include? marker or human[1].gsub(/\s+/, '').gsub(/\W/, '').strip == ''   
+    if human[1].include? marker or human[1].length < 8 or human[1].gsub(/\s+/, '').gsub(/\W/, '').strip == ''   
       puts "remove: #{human[0]}"
       db.query("DELETE FROM domain_tags WHERE domain_id = #{human[0]}")
       db.query("DELETE FROM human_versions WHERE domain_id = #{human[0]}")
