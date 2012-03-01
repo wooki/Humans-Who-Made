@@ -4,12 +4,11 @@
 	who built them - use this as part of your portfolio, or just if you are
 	curious.</p>
 	<p><a href="/about-us" class="btn btn-primary btn-large">Learn more &raquo;</a>
-	<a href="https://twitter.com/share" class="twitter-share-button" data-via="HumansWhoMade">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
-<g:plusone size="small" annotation="inline"></g:plusone>
-
-<div class="fb-like" data-href="http://humanswhomade.com" data-send="false" data-layout="button_count" data-show-faces="false"></div>
+		
+	<div style="float: left;"><a href="https://twitter.com/share" class="twitter-share-button" data-via="HumansWhoMade">Tweet</a></div>
+	<div style="float: left;"><g:plusone size="small" annotation="inline"></g:plusone></div>
+	<div style="float: left;"><div class="fb-like" data-href="http://humanswhomade.com" data-send="false" data-layout="button_count" data-show-faces="false"></div></div>
+	
 	</p>
 </div>
 
