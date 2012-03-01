@@ -46,7 +46,7 @@ class Sites extends CI_Controller {
 		
 	 	// get the data for current page
 		$offset = ($this->uri->segment(3, 1)-1) * $config['per_page'];
-		$sql = "SELECT MAX(domains.name) name, MAX(humans.id) id, domains.title, domains.description, humans.txt FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) GROUP BY domains.title, humans.txt LIMIT ".$offset.",".$config['per_page'].";";
+		$sql = "SELECT MAX(domains.name) name, MAX(humans.id) id, domains.title title, domains.description description, humans.txt txt FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) GROUP BY domains.title, humans.txt ORDER BY humans.id DESC LIMIT ".$offset.",".$config['per_page'].";";
 		mysql_set_charset("utf8");
   	$query = $this->db->query($sql);
 	  $domains = $query->result();
