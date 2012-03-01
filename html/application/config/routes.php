@@ -43,6 +43,9 @@ $route['404_override'] = '';
 
 $route['tag/(:any)'] = "sites/tag/$1";
 $route['humans/(:any)'] = "humans/index/$1";
+$route['sites/page'] = "sites/index";
+$route['sites/page/'] = "sites/index";
+$route['sites/page/(:any)'] = "sites/index/$1";
 
 $route['about-us'] = "homepage/about_us";
 $route['humans-txt'] = "homepage/humanstxt";
