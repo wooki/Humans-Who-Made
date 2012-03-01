@@ -65,9 +65,6 @@
               <li<?php if ($active == 'sites') { echo ' class="active"'; } ?>><a href="/sites">Websites</a></li>
             </ul>
             <ul class="nav pull-right">
-              <li><div class="fb-like" data-href="http://humanswhomade.com" data-send="false" data-layout="button_count" data-width="150" data-show-faces="false" data-colorscheme="dark" data-font="arial"></div></li>
-              <li><a href="https://twitter.com/share" class="twitter-share-button" data-via="HumansWhoMade">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></li>
               <li><a href="/humans.txt"><img src="/img/humanstxt.png" alt="Humans  " /></a></li>
             </ul>
           </div>
