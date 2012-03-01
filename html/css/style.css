@@ -11,5 +11,7 @@
 a.label, a.label:hover, a.label:active, a.label:visited { color: #fff; }
 
 div.hero-unit {
-    background-image: url(../img/Caveman_rock_128x128.png) bottom right no-repeat;
+    background-image: url(../img/human_with_rock_128x128.png);
+    background-position: bottom right;
+    background-repeat: no-repeat;
 }
