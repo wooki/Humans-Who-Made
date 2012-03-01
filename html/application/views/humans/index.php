@@ -14,7 +14,7 @@
 
 <p>
 	<div style="float: left;"><a href="https://twitter.com/share" class="twitter-share-button" data-via="HumansWhoMade">Tweet</a></div>
-	<div style="float: left;"><g:plusone size="small"></g:plusone></div>
+	<div style="float: left;"><g:plusone></g:plusone></div>
 	<div style="float: left;"><div class="fb-like" data-href="http://humanswhomade.com" data-send="false" data-layout="button_count" data-show-faces="false"></div></div>
 </p>
 <div style="clear: both;"></div>
