@@ -11,7 +11,7 @@
 a.label, a.label:hover, a.label:active, a.label:visited { color: #fff; }
 
 div.hero-unit {
-    background-image: url(../img/human_with_rock_128x128.png);
+    background-image: url(../img/human_with_rock_256x256.png);
     background-position: bottom right;
     background-repeat: no-repeat;
 }
