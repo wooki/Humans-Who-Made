@@ -2,15 +2,6 @@
 	 
 	 <footer>
 			<p>&copy; Jim Rowe 2012</p>
-<script type="text/javascript">
-    var disqus_shortname = 'humanswhomade';
-	  (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-</script>
 	 </footer>
 
 </div> <!-- /container -->
@@ -33,5 +24,14 @@
     <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
   <![endif]-->
 	
+	  <div id="fb-root"></div>
+	  <script>(function(d, s, id) {
+		 var js, fjs = d.getElementsByTagName(s)[0];
+		 if (d.getElementById(id)) return;
+		 js = d.createElement(s); js.id = id;
+		 js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
+		 fjs.parentNode.insertBefore(js, fjs);
+	  }(document, 'script', 'facebook-jssdk'));</script>
+
   </body>
 </html>
