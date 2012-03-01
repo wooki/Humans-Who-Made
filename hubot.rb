@@ -10,12 +10,13 @@ require 'open-uri'
 require 'net/http'
 require 'nokogiri'
 require 'mechanize'
+require 'yaml'
 
 # limit the number of domains checked
 max_domains = 25
 
 # html markers
-html_markers = ['$_G', '$_P', '$_S', 'not found', 'does not exist', 'Page not found', '<META', '<script', '<SCRIPT', '<html>', '<HTML', '<!DOC', '<pre', '<html ', '<head ', '<body', '<p>', '<p ', '<a ', '<br>', '<br />']
+html_markers = YAML::load(File.open('html_markers.yaml'))
 
 # connect
 db = Mysql.init
@@ -112,6 +113,9 @@ end
       process = false
     end
 
+  rescue Zlib::DataError
+    puts " Zlib::DataError"
+    process = false
   rescue Zlib::GzipFile::NoFooter 
     puts " Zlib::GzipFile::NoFooter"
     process = false
