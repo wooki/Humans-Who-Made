@@ -15,3 +15,8 @@ div.hero-unit {
     background-position: bottom right;
     background-repeat: no-repeat;
 }
+
+div.hero-unit p { padding-right: 100px; }
+
+p.right { text-align: right; }
+p.center { text-align: center; }

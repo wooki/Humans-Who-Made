@@ -23,6 +23,7 @@
 		created or authored a website. You simply place the information
 		in a simpe text file in the root of your site.</p>
 		<p><a class="btn" href="/humans-txt">About humans.txt &raquo;</a></p>
+<p class="center"><img src='/img/Dino_blue_128x128.png' alt="Learn more about humans.txt files" height="128" width="128" /></p>
 	</div>
 	<div class="span4">
 		<h2>Tags</h2>

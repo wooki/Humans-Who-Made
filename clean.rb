@@ -12,7 +12,7 @@ html_markers = YAML::load(File.open('html_markers.yaml'))
 db = Mysql.new('localhost', 'dbuser', 'thalia', 'humans')
 
 # load all domains
-humans = db.query "SELECT domain_id, txt FROM humans"
+humans = db.query "SELECT domain_id, txt FROM humans;"
 humans.each { | human |
   
   # check if allowed

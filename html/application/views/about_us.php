@@ -10,6 +10,7 @@
     about your development tream and site and we will hopefully stummble across it in one
     of our hourly internet crawls.</p>
     <p>For best results ensure you follow the guidelines for the <a href="/humans-txt">humans.txt</a> file.</p>
+<p class="center"><img src="/img/human_on_rock_right_256x256.png" height="256" width="256" alt="Human on rock!" /></p>
  </div>
 	<div class="span4">
 		<h2>Who's idea was this</h2>
@@ -18,6 +19,7 @@
     perverse I thought it might be a good candidate for listing this information in a way that non-technical
     people can find it.</p>
     <a href="/humans-txt" class="btn">Read more</a>
+<p class="center" style="margin-top: 100px;"><img src="/img/Dino_orange_128x128.png" height="128" width="128" alt="Who's idea was this? - humanstxt.org" /></p>
 	</div>
 	<div class="span4">
 		<h2>Statistics</h2>
