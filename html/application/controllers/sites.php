@@ -7,7 +7,7 @@ class Sites extends CI_Controller {
 	 */
 	public function index() {
     
-    #$this->output->cache(5);
+    $this->output->cache(5);
     
 		// sql to get the number of rows
 		$sql = "SELECT COUNT(id) total FROM (SELECT MAX(domains.id) id FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) GROUP BY domains.title, humans.txt) somealias;";
@@ -22,7 +22,7 @@ class Sites extends CI_Controller {
 		$config['use_page_numbers'] = TRUE;
     $config['total_rows'] = $total_humans;
     $config['per_page'] = 10;
-		$config['num_links'] = 10;
+		$config['num_links'] = 5;
 		$config['full_tag_open'] = '<div class="pagination"><ul>';
 		$config['full_tag_close'] = '</ul></div>';
 		$config['first_link'] = false;

@@ -6,6 +6,8 @@
 require 'rubygems'
 require 'mysql'
 
+Encoding.default_internal = 'UTF-8'
+
 html_markers = YAML::load(File.open('html_markers.yaml'))
 
 # connect

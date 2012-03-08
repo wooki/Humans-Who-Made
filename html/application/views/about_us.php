@@ -13,7 +13,7 @@
 <p class="center"><img src="/img/human_on_rock_right_256x256.png" height="256" width="256" alt="Human on rock!" /></p>
  </div>
 	<div class="span4">
-		<h2>Who's idea was this</h2>
+		<h2>Whos idea was this</h2>
 		<p>The original idea for a humans.txt file seems to be from the clever chaps at humanstxt.org and I think I
     spotted it via a link on twitter.  Although crawling a file designed specifically for humans seems slightly
     perverse I thought it might be a good candidate for listing this information in a way that non-technical
