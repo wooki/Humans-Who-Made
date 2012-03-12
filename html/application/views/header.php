@@ -64,6 +64,9 @@
               <li<?php if ($active == 'tags') { echo ' class="active"'; } ?>><a href="/tags">Tags</a></li>
               <li<?php if ($active == 'sites') { echo ' class="active"'; } ?>><a href="/sites">Websites</a></li>
             </ul>
+              <form action="<?php echo site_url(array('sites', 's')); ?>" method="post" class="navbar-search pull-left">
+              <input type="text" name="term" class="search-query" placeholder="Search">
+              </form>
             <ul class="nav pull-right">
               <li><a href="/humans.txt"><img src="/img/humanstxt.png" alt="Humans  " /></a></li>
             </ul>

@@ -91,6 +91,49 @@ class Sites extends CI_Controller {
 		$this->load->view('footer', $data);
   }
   
+	/**
+	 * Redirects posted search to a static page
+	 */
+	public function s() {
+		
+		$term = $this->input->post('term');
+		if ($term == FALSE) {
+			header('Location: '.site_url(array('sites')));
+		} else {
+			header('Location: '.site_url(array('sites', 'search', $term)));
+		}
+	}
+	
+	/**
+	 * List sites with matching domain with humans.txt 
+	 */
+	public function search($term) {
+    
+		$this->output->cache(5);
+    
+		$term = urldecode($term);
+		
+    $sql = "SELECT MAX(domains.name) name, MAX(humans.id) id, domains.title title, domains.description description, humans.txt txt ";
+    $sql .= "FROM domains INNER JOIN humans ON (domains.id = humans.domain_id) ";
+    $sql .= "WHERE domains.name like ".$this->db->escape("%".$term."%")." ";
+		$sql .= " OR humans.txt like ".$this->db->escape("%".$term."%");
+		$sql .= " GROUP BY domains.title, humans.txt LIMIT 100";
+    
+  	mysql_set_charset("utf8");
+  	$query = $this->db->query($sql);
+	  $domains = $query->result();
+    
+    $data = array('active' => 'search',
+                  'title' => 'Humans.txt for sites matching '.$term,
+						  'description' => 'Humans.txt for sites matching '.$term,
+						  'domains' => $domains,
+							'term' => $term);
+		
+		$this->load->view('header', $data);
+		$this->load->view('sites/search', $data);
+		$this->load->view('footer', $data);
+  }
+  
   
 } 
 
