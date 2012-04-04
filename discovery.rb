@@ -7,12 +7,14 @@ require 'rubygems'
 require 'mysql'
 require 'anemone'
 require 'uri'
+require 'timeout'
 
 # max no of domains to check each time
-max_domains = 5 
+max_domains = 10 
 
 # regex of domains that we want to ignore - in this case googles many not .com domains!
-ignore_domains = /(twitter\.com)|(t\.co)|((\w+\.)?google\.\w\w\w?\.\w+)|((\w+\.)?google\.(?!com))/i
+#ignore_domains = /(www\.jaycar\.co\.nz)|(twitter\.com)|(t\.co)|((\w+\.)?google\.\w\w\w?\.\w+)|((\w+\.)?google\.(?!com))/i
+ignore_domains = /xxxxxxxxxx/i
 
 # connect
 db = Mysql.init
@@ -44,9 +46,12 @@ tags = Array.new
 seed_domains.each { | seed |
 
   db.query "UPDATE humans SET last_seed = NOW() WHERE id = #{seed[1]}" if seed[1]
-#  puts "Anemone is spidering #{seed[0]}"
+  puts "Anemone is spidering #{seed[0]}"
   
+  if !(seed[0] =~ ignore_domains)
+ 
   begin
+    Timeout::timeout(30) {
     Anemone.crawl("http://#{seed[0]}", {:threads => 1, :depth_limit => 1}) do | anemone |
     anemone.on_every_page { | page |
       if page.doc
@@ -77,11 +82,15 @@ seed_domains.each { | seed |
       end      
     }
     end
+  }
+  rescue Timeout::Error
+    puts " Timeout::Error"
   rescue ArgumentError
   rescue URI::InvalidComponentError
     # puts " URI::InvalidComponentError #{seed[0]}"
   rescue URI::InvalidURIError
     # puts " URI::InvalidURIError #{seed[0]}"
+  end
   end
 }
   
