@@ -53,7 +53,7 @@ seed_domains.each { | seed |
  
   begin
     Timeout::timeout(30) {
-    Anemone.crawl("http://#{seed[0]}", {:threads => 1, :depth_limit => 1}) do | anemone |
+    Anemone.crawl("http://#{seed[0]}", {:threads => 1, :depth_limit => 0}) do | anemone |
     anemone.on_every_page { | page |
       if page.doc
       
