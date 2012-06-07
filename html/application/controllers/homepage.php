@@ -7,7 +7,7 @@ class Homepage extends CI_Controller {
 	 */
 	public function index() {
 		
-    $this->output->cache(5);
+    $this->output->cache(180);
     
 		$countuses = "SELECT tags.name name, ROUND(SQRT(count(domain_tags.id)), 0) uses ";
     $countuses .= "FROM tags INNER JOIN domain_tags ON (tags.id = domain_tags.tag_id) ";
@@ -51,7 +51,7 @@ class Homepage extends CI_Controller {
    */
   public function about_us() {
 		
-    $this->output->cache(5);
+    $this->output->cache(180);
     
 		mysql_set_charset("utf8");
   	$query = $this->db->query("SELECT COUNT(id) counter FROM domains;");
@@ -91,7 +91,7 @@ class Homepage extends CI_Controller {
    */
   public function humanstxt() {
 		
-    $this->output->cache(5);
+    $this->output->cache(180);
     
 		$data = array('active' => 'humans-txt',
                   'title' => 'About humans.txt',

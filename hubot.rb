@@ -11,9 +11,10 @@ require 'net/http'
 require 'nokogiri'
 require 'mechanize'
 require 'yaml'
+require 'timeout'
 
 # limit the number of domains checked
-max_domains = 25
+max_domains = 50
 
 # html markers
 html_markers = YAML::load(File.open('html_markers.yaml'))
@@ -32,6 +33,7 @@ domains.each { | domain |
   url = "http://#{domain[0]}/humans.txt"
   
   begin
+    Timeout::timeout(10) {    
     
     # load the homepage of the site and check for the language
     agent = Mechanize.new
@@ -112,8 +114,14 @@ end
       puts " None English Content"
       process = false
     end
-
-  rescue Zlib::DataError
+    }
+ rescue Timeout::Error
+   puts " Timeout::Error"
+   process = false
+ rescue Zlib::BufError
+    puts " Zlib::BufError"
+    process = false
+ rescue Zlib::DataError
     puts " Zlib::DataError"
     process = false
   rescue Zlib::GzipFile::NoFooter 

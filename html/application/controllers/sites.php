@@ -7,7 +7,7 @@ class Sites extends CI_Controller {
 	 */
 	public function index() {
     
-    $this->output->cache(5);
+    $this->output->cache(180);
     
 		// sql to get the number of rows
 		$sql = "SELECT COUNT(id) total FROM (SELECT MAX(domains.id) id FROM humans INNER JOIN domains ON (domains.id = humans.domain_id) GROUP BY domains.title, humans.txt) somealias;";
@@ -66,7 +66,7 @@ class Sites extends CI_Controller {
 	 */
 	public function tag($tagname) {
     
-		$this->output->cache(5);
+		$this->output->cache(180);
     
 		$tagname = urldecode($tagname);
 		
@@ -109,7 +109,7 @@ class Sites extends CI_Controller {
 	 */
 	public function search($term) {
     
-		$this->output->cache(5);
+		$this->output->cache(180);
     
 		$term = urldecode($term);
 		
