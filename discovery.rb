@@ -43,10 +43,16 @@ tags = Array.new
 
 # iterate domains spidering each one and collecting a list of domains
 # that it links to
+puts ">>> #{seed_domains}"
 seed_domains.each { | seed |
 
+<<<<<<< HEAD
+  puts "Anemone is spidering #{seed} : #{seed[0]}"
+  db.query "UPDATE humans SET last_seed = NOW() WHERE id = '#{seed[1]}'" if seed[1]
+=======
   db.query "UPDATE humans SET last_seed = NOW() WHERE id = #{seed[1]}" if seed[1]
   puts "Anemone is spidering #{seed[0]}"
+>>>>>>> 33b1bac04ec7adc1f0703117734e6cab1c1408da
   
   if !(seed[0] =~ ignore_domains)
  
