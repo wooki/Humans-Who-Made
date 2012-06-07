@@ -6,6 +6,8 @@ require 'rubygems'
 require 'mysql'
 require 'uri'
 require 'timeout'
+require 'open-uri'
+require 'json'
 
 # max no of domains to check each time
 max_domains = 10 
@@ -16,7 +18,7 @@ db.options(Mysql::SET_CHARSET_NAME, 'utf8')
 db.connect('localhost', 'dbuser', 'thalia', 'humans')
 
 # use the domains in seed order for simplicity
-sql =  "(SELECT domains.name, humans.id FROM domains INNER JOIN humans on (domains.id = humans.domain_id) ORDER BY humans.last_seed LIMIT 0, #{max_domains})"
+sql =  "(SELECT domains.name, humans.id, domains.description FROM domains INNER JOIN humans on (domains.id = humans.domain_id) ORDER BY humans.last_seed LIMIT 0, #{max_domains})"
 
 humans = db.query sql
 
@@ -25,15 +27,14 @@ tags = Array.new
 
 # check each domain with a humans file
 humans.each { | human |
-  puts "Human: #{human[:name]}"
+  puts "Human: #{human[0]}"
   begin
     Timeout::timeout(30) {
       
-      # load json from http://uridata.com/
-      
-      
+ 
+     puts human[2] 
       #tags.push({:domain => domain, :tag => tag) tag and tag.strip != ''
-            
+end            
     }
   rescue Timeout::Error
     puts " Timeout::Error"
