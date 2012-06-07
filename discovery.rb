@@ -41,10 +41,11 @@ tags = Array.new
 
 # iterate domains spidering each one and collecting a list of domains
 # that it links to
+puts ">>> #{seed_domains}"
 seed_domains.each { | seed |
 
-  db.query "UPDATE humans SET last_seed = NOW() WHERE id = #{seed[1]}" if seed[1]
-#  puts "Anemone is spidering #{seed[0]}"
+  puts "Anemone is spidering #{seed} : #{seed[0]}"
+  db.query "UPDATE humans SET last_seed = NOW() WHERE id = '#{seed[1]}'" if seed[1]
   
   begin
     Anemone.crawl("http://#{seed[0]}", {:threads => 1, :depth_limit => 1}) do | anemone |
