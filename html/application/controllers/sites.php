@@ -70,7 +70,7 @@ class Sites extends CI_Controller {
     
 		$tagname = urldecode($tagname);
 		
-    $sql = "SELECT MAX(domains.name) name ";
+    $sql = "SELECT MAX(domains.name) name, domains.description description ";
     $sql .= "FROM domains INNER JOIN domain_tags ON (domains.id = domain_tags.domain_id) ";
     $sql .= "INNER JOIN tags ON (domain_tags.tag_id = tags.id) ";
     $sql .= "INNER JOIN humans ON (domains.id = humans.domain_id) ";

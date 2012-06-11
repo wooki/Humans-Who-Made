@@ -8,9 +8,10 @@ require 'uri'
 require 'timeout'
 require 'open-uri'
 require 'json'
+require 'highscore'
 
 # max no of domains to check each time
-max_domains = 10 
+max_domains = 300 
 
 # connect
 db = Mysql.init
@@ -29,15 +30,24 @@ tags = Array.new
 humans.each { | human |
   puts "Human: #{human[0]}"
   begin
-    Timeout::timeout(30) {
-      
- 
-     puts human[2] 
-      #tags.push({:domain => domain, :tag => tag) tag and tag.strip != ''
-end            
-    }
-  rescue Timeout::Error
-    puts " Timeout::Error"
+  if human[2]    
+text = Highscore::Content.new human[2]
+text.configure do
+  set :multiplier, 2
+  set :upper_case, 3
+  set :long_words, 2
+  set :long_words_threshold, 15
+  set :vowels, 1                     # => default: 0 = not considered
+  set :consonants, 5                 # => default: 0 = not considered  
+  set :ignore_case, true             # => default: false
+  set :word_pattern, /[\w]+[^\s0-9][\w]+/ # => default: /\w+/
+end 
+
+text.keywords.top(20).each do |keyword|
+  puts keyword.text + ": " + keyword.weight.to_s
+  tags.push({:domain => human[0], :tag => keyword.text}) if keyword.weight > 5.5
+end
+  end
   rescue ArgumentError
   rescue URI::InvalidComponentError
     # puts " URI::InvalidComponentError #{seed[0]}"
