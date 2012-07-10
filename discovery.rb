@@ -10,7 +10,7 @@ require 'uri'
 require 'timeout'
 
 # max no of domains to check each time
-max_domains = 10 
+max_domains = 5 
 
 # regex of domains that we want to ignore - in this case googles many not .com domains!
 #ignore_domains = /(www\.jaycar\.co\.nz)|(twitter\.com)|(t\.co)|((\w+\.)?google\.\w\w\w?\.\w+)|((\w+\.)?google\.(?!com))/i
@@ -52,8 +52,8 @@ seed_domains.each { | seed |
   if !(seed[0] =~ ignore_domains)
  
   begin
-    Timeout::timeout(30) {
-    Anemone.crawl("http://#{seed[0]}", {:threads => 1, :depth_limit => 0}) do | anemone |
+    Timeout::timeout(15) {
+    Anemone.crawl("http://#{seed[0]}", {:threads => 1, :depth_limit => 1}) do | anemone |
     anemone.on_every_page { | page |
       if page.doc
       
