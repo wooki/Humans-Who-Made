@@ -3,7 +3,7 @@
 	<p><em>Humans Who Made</em> is an index of websites and information about
 	who built them - use this as part of your portfolio, or just if you are
 	curious.</p>
-	<p><a href="/about-us" class="btn btn-primary btn-large">Learn more &raquo;</a>
+	<p><a href="/new-domain" class="btn btn-primary btn-large">Submit domain &raquo;</a>
 		
 	<div style="position: relative; top: -20px; margin-right: 120px; float: right;"><div class="fb-like" data-href="http://humanswhomade.com" data-send="false" data-layout="button_count" data-show-faces="false"></div></div>
 	<div style="position: relative; top: -20px; float: right;"><g:plusone size="medium"></g:plusone></div>
