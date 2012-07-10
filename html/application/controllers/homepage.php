@@ -101,6 +101,64 @@ class Homepage extends CI_Controller {
 		$this->load->view('humanstxt', $data);
 		$this->load->view('footer', $data);    
   }
+
+  
+  /**
+   * Submit a new domain
+   */
+  public function new_domain() {
+		
+    $this->output->cache(180);
+    
+		$data = array('active' => 'new-domain',
+                  'title' => 'Submit a new domain to humans.txt',
+                  'description' => 'Submit a new domain to humans.txt');
+		
+		$this->load->view('header', $data);
+		$this->load->view('new_domain', $data);
+		$this->load->view('footer', $data);    
+  }
+  
+  /**
+   * Submit a new domain
+   */
+  public function submit_domain() {
+		
+    $domain = $this->input->post("domain");
+    
+    // check the domain name is in the right format
+    $domain = str_replace("http://", "", $domain);
+    $domain = str_replace("HTTP://", "", $domain);
+    
+    if (preg_match('/\w\S*\.\w\S*(\.\w\S*)+/', $domain) > 0) {
+      
+      $query = $this->db->query("SELECT id FROM domains WHERE name = ".$this->db->escape($domain));
+		if ($query->result()) {
+      // already exists!			
+		} else {
+		
+        // read the domain name and add to the database
+        $sqldata = array(
+                   'name' => $domain,
+                   'discovered' => date('Y-m-d H:i:s')
+                );
+    
+        $this->db->insert('domains', $sqldata);
+      }
+    }
+    
+    $data = array('domain' => $domain,
+                  'active' => 'new-domain',
+                  'title' => 'Submit a new domain to humans.txt',
+                  'description' => 'Submit a new domain to humans.txt');
+		
+		$this->load->view('header', $data);
+		$this->load->view('submit_domain', $data);
+		$this->load->view('footer', $data);    
+  }
+
+  
+  
   
 	/*
 	 * function for doing google chart "Simple Encoding"
